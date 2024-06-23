@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { getGoogleOauthUrl } from "../api";
 
 const SignIn = () => {
+
+    // getGoogleOauthUrl();
     return (
         <>
             <section className="bg-slate-900 h-screen text-slate-200">
@@ -39,7 +42,7 @@ const SignIn = () => {
                         </form>
 
                         <a 
-                        href=""
+                        href={getGoogleOauthUrl()}
                         className=""
                         >
                             <div className="w-full bg-amber-400 hover:bg-amber-600 text-slate-900 flex items-center justify-center text-center text-2xl py-2">
