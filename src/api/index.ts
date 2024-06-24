@@ -19,3 +19,6 @@ export const getGoogleOauthUrl = () => {
     return targetUrl + "?" + qs.stringify(params);
      
 };
+
+export const loginApi = () => "/login";
+export const RegisterApi = () => "/register";

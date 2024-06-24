@@ -1,7 +1,8 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AppLayout from "../components/AppLayout";
-import SignIn from "../pages/signIn";
+import SignIn from "../pages/auth/signIn";
 import NotFound from "../pages/errors/not_found";
+import SignUp from "../pages/auth/signUp";
 
 const routes = createBrowserRouter([
     {
@@ -11,7 +12,11 @@ const routes = createBrowserRouter([
             {
                 path : "sign_in",
                 element : <SignIn  />
-            }
+            },
+            {
+                path : "sign_up",
+                element : <SignUp  />
+            },
         ]
     },
     //not_found_route
