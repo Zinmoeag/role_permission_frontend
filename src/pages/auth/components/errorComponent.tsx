@@ -11,7 +11,6 @@ const ErrorComponent = ({
             <div className="bg-red-200 flex items-center justify-center text-red-700 gap-2">
                 <FontAwesomeIcon icon={faTriangleExclamation} />
                 <p className="text-red-500 text-sm py-1">{errorMessage}</p>
-                <FontAwesomeIcon icon={faTriangleExclamation} />
             </div>
         </>
     )

@@ -8,6 +8,8 @@ import { RegisterFormSchema } from "../../schema/AuthSchema";
 import axiosClient from "../../axios/axiosClient";
 import { RegisterApi } from "../../api";
 import { useAuth, AuthContextType } from "../../context/authProvider";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
 
@@ -22,17 +24,33 @@ const SignUp = () => {
         resolver : zodResolver(RegisterFormSchema)
     });
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(auth?.accessToken){
+            navigate("/dashboard")
+        }
+
+    },[auth?.accessToken])
+
     const onSubmit  = async (data : any) => {
         axiosClient.post(RegisterApi(),data)
             .then(res => {
                 setAuth({
-                    user : {},
+                    user : res.data.user,
                     accessToken : res.data.accessToken   
                 })
-                console.log(auth)
             })
             .catch(err => {
-                console.log(err)
+                if(err?.response?.status === 409) {
+                    setError('server_error', {
+                        message : err.response.data.message
+                    })
+                }else{
+                    setError("server_error", {
+                        message : "Something went wrong. Please try again later."
+                    })
+                }
             })
     }
 

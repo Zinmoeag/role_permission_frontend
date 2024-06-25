@@ -1,13 +1,15 @@
 import React, { createContext, useState, ReactNode, useContext } from 'react';
+import { AuthUser } from '../type';
+import {z} from "zod"
 
-interface AuthType {
-    user : object,
+interface AuthType<user> {
+    user : user,
     accessToken : string;
 }
 
 export interface AuthContextType {
-    auth: AuthType | null;
-    setAuth: React.Dispatch<React.SetStateAction<AuthType | null>>;
+    auth: AuthType<AuthUser> | null;
+    setAuth: React.Dispatch<React.SetStateAction<AuthType<AuthUser> | null>>;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -16,7 +18,7 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [auth, setAuth] = useState<AuthType | null>(null);
+    const [auth, setAuth] = useState<AuthType<AuthUser> | null>(null);
 
     return (
         <AuthContext.Provider value={{ auth, setAuth }}>

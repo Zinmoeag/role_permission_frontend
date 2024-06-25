@@ -7,8 +7,17 @@ import {z} from "zod";
 import axiosClient from "../../axios/axiosClient";
 import AuthFormComponent from "../../components/authFormComponent";
 import ErrorComponent from "./components/errorComponent";
+import { useAuth } from "../../context/authProvider";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
+
+    const {
+        auth,
+        setAuth
+    } = useAuth();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -19,13 +28,22 @@ const SignIn = () => {
         resolver : zodResolver(LoginFormSchema)
     });
 
+    useEffect(() => {
+        if(auth){
+            navigate('/dashboard');
+        }
+    },[auth?.accessToken])
+
     const onSubmit 
     : SubmitHandler<z.infer<typeof LoginFormSchema>> | any 
     = async (data : SubmitHandler<z.infer<typeof LoginFormSchema>>) => {
 
         axiosClient.post(loginApi(), data)
             .then(res => {
-                console.log(res.data)
+                setAuth({
+                    user : res.data.user,
+                    accessToken : res.data.accessToken   
+                });
             })
             .catch(err => {
                 if(err.response.status === 422) {

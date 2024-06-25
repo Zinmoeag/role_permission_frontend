@@ -3,6 +3,8 @@ import AppLayout from "../components/AppLayout";
 import SignIn from "../pages/auth/signIn";
 import NotFound from "../pages/errors/not_found";
 import SignUp from "../pages/auth/signUp";
+import ProtectedRoute from "../pages/protectedRoute";
+import Dashboard from "../pages/dashboard";
 
 const routes = createBrowserRouter([
     {
@@ -17,8 +19,19 @@ const routes = createBrowserRouter([
                 path : "sign_up",
                 element : <SignUp  />
             },
+            {
+                path : "dashboard",
+                element : <ProtectedRoute allowedRoles={["USER"]} />,
+                children : [
+                    {
+                        path : "",
+                        element : <Dashboard />
+                    }
+                ]
+            },
         ]
     },
+   
     //not_found_route
     {
         path : "*",
