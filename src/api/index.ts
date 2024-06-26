@@ -22,3 +22,4 @@ export const getGoogleOauthUrl = () => {
 
 export const loginApi = () => "/login";
 export const RegisterApi = () => "/register";
+export const RefreshTokenApi = () => "/refreshToken";

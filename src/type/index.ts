@@ -7,3 +7,8 @@ export interface AuthUser {
     role_name : Roles
     roleId : string
 }
+
+export interface ServerReturnAuth {
+    accessToken : string,
+    user : AuthUser
+}

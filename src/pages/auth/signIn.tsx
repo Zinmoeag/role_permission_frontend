@@ -7,16 +7,17 @@ import {z} from "zod";
 import axiosClient from "../../axios/axiosClient";
 import AuthFormComponent from "../../components/authFormComponent";
 import ErrorComponent from "./components/errorComponent";
-import { useAuth } from "../../context/authProvider";
+import { AuthContextType, useAuth } from "../../context/authProvider";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { faWizardsOfTheCoast } from "@fortawesome/free-brands-svg-icons";
 
 const SignIn = () => {
 
     const {
         auth,
         setAuth
-    } = useAuth();
+    } = useAuth() as AuthContextType;
     const navigate = useNavigate();
 
     const {
@@ -38,7 +39,7 @@ const SignIn = () => {
     : SubmitHandler<z.infer<typeof LoginFormSchema>> | any 
     = async (data : SubmitHandler<z.infer<typeof LoginFormSchema>>) => {
 
-        axiosClient.post(loginApi(), data)
+        axiosClient.post(loginApi(), data , {withCredentials : true})
             .then(res => {
                 setAuth({
                     user : res.data.user,
@@ -46,9 +47,13 @@ const SignIn = () => {
                 });
             })
             .catch(err => {
-                if(err.response.status === 422) {
+                if(err?.response?.status === 422) {
                     setError('server_error', {
                         message : err.response.data.message
+                    })
+                }else{
+                    setError('server_error', {
+                        message : "Internal Server Error"
                     })
                 }
             })
