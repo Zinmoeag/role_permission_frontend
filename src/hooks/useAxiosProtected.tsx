@@ -2,8 +2,9 @@ import { axiosProtected } from "../axios/axiosProtected";
 import { useEffect } from "react";
 import { AuthContextType, useAuth } from "../context/authProvider";
 import axiosClient from "../axios/axiosClient";
-import { RefreshTokenApi } from "../api";
 import { ServerReturnAuth } from "../type";
+import useRefreshToken from "./useRefreshToken";
+import { redirect } from "react-router-dom";
 
 const useAxiosProtected = () => {
 
@@ -12,14 +13,15 @@ const useAxiosProtected = () => {
         setAuth
     } = useAuth() as AuthContextType;
 
+    const {
+        refresh
+    } = useRefreshToken();
+
     useEffect(() => {
         const checkAccessToken = axiosProtected.interceptors.request.use(
             config => {
-                console.log("request")
-                console.log(config.headers["Authorization"])
                 if(!config.headers["Authorization"]){
-                    console.log("set net bearer token")
-                    config.headers["Authorization"] = "Bearer " + auth?.accessToken + "d"
+                    config.headers["Authorization"] = "Bearer " + auth?.accessToken
                 }
                 return config;
             }, (error) => Promise.reject(error)
@@ -27,43 +29,33 @@ const useAxiosProtected = () => {
 
         const checkAccessTokenResponse = axiosProtected.interceptors.response.use(
             response => {
-                console.log("still avalable")
+                //still valid token
                 return response
             },
             async (error) => {
-                // console.log(error.config)
                 const prevRequest = error.config;
                 if(error.response.status === 403){
                     try{
-                        console.log("needa generate againg")
-                        //get access token by refresh token
-                        const {data} : {data : ServerReturnAuth} = await axiosClient.post(RefreshTokenApi());
-                        console.log("new access token")
+                        const data = await refresh() as ServerReturnAuth;
+                        prevRequest.headers.Authorization = `Bearer ${data.accessToken}`;
                         setAuth({
-                            accessToken : data.accessToken,
-                            user : data.user
+                            ...data
                         })
-                        prevRequest.headers['Authorization'] = `Bearer ${data.accessToken}`;
-                        return axiosClient(error?.config)
+                        return axiosClient(prevRequest)
   
                     }catch(err : any){
-                        if(err.response.status === 403){
-                            console.log("invalid refreh token")
-                            setAuth(null);   
-                        }
+                        setAuth(null);
                         return Promise.reject(error);
                     }
                 }
-
             }
         )
 
         return () => {
-            console.log("clean up")
             axiosProtected.interceptors.request.eject(checkAccessToken);
             axiosProtected.interceptors.response.eject(checkAccessTokenResponse);
         }
-    },[auth])
+    },[auth, redirect])
 
     return {
         axiosProtected

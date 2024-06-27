@@ -2,6 +2,7 @@ import { useAuth } from "../context/authProvider"
 import { Outlet } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { Roles } from "../type";
+import { AuthContextType } from "../context/authProvider";
 
 const ProtectedRoute = ({
     allowedRoles,
@@ -10,7 +11,7 @@ const ProtectedRoute = ({
 }) => {
     const {
         auth,
-    } = useAuth();
+    } = useAuth() as AuthContextType;
 
     return (
         (auth?.user?.role_name && allowedRoles.includes(auth?.user?.role_name)) 

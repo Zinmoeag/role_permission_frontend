@@ -1,30 +1,18 @@
 import axiosCient from "../axios/axiosClient";
-import {AuthContextType, AuthType, useAuth} from "../context/authProvider";
 import { RefreshTokenApi } from "../api";
-import { AuthUser } from "../type";
-
-
+import { ServerReturnAuth } from "../type";
+import { useNavigate } from "react-router-dom";
 
 const useRefreshToken = () => {
-    const {
-        auth,
-        setAuth
-    } = useAuth() as AuthContextType;
+    const navigate = useNavigate();
 
     const refresh = async () => {
 
         try {
-            const res = await axiosCient.post(RefreshTokenApi());
-
-            setAuth({
-                ...auth,
-                accessToken : res.data.accessToken
-            } as AuthType<AuthUser>) 
-
-            console.log(res)
-
-        }catch(err){
-            console.log(err)
+            const {data} : {data : ServerReturnAuth} = await axiosCient.post(RefreshTokenApi());
+            return data;
+        }catch(err : any){
+            throw new Error(err)
         }
     }
 

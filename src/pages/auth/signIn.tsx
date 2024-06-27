@@ -10,7 +10,6 @@ import ErrorComponent from "./components/errorComponent";
 import { AuthContextType, useAuth } from "../../context/authProvider";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { faWizardsOfTheCoast } from "@fortawesome/free-brands-svg-icons";
 
 const SignIn = () => {
 
