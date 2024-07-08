@@ -34,19 +34,17 @@ const useAxiosProtected = (accessToken = null) => {
                 const prevRequest = error.config;
                 if(error.response.status === 403){
                     try{
-
                         const data = await refresh() as ServerReturnAuth;
                         prevRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-                        // setAuth({
-                        //     user : data.user,
-                        //     accessToken : data.accessToken,
-                        // })
                         setAccessToken({
                             auth_access_token : data.accessToken
                         });
                         return axiosClient(prevRequest)
   
                     }catch(err : any){
+                        setAccessToken({
+                            auth_access_token : null
+                        });
                         return Promise.reject(error);
                     }
                 }
@@ -54,11 +52,10 @@ const useAxiosProtected = (accessToken = null) => {
         )
 
         return () => {
-            // console.log('clean up')
             axiosProtected.interceptors.request.eject(checkAccessToken);
             axiosProtected.interceptors.response.eject(checkAccessTokenResponse);
         }
-    },[auth_access_token])
+    },[])
 
     return {
         axiosProtected

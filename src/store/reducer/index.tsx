@@ -16,7 +16,7 @@ const reducer = (state : Store , action : Actions) : Store => {
                 auth_access_token : action.payload.auth_access_token
             }
         default :
-            return InitailAppState;
+            return state;
     }
 }
 

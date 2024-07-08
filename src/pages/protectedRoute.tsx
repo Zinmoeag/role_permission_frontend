@@ -11,7 +11,8 @@ const ProtectedRoute = ({
 
     const {
         state : {
-            user
+            user,
+            auth_access_token
         }
     } = useAppStore() as any;
 
@@ -19,10 +20,9 @@ const ProtectedRoute = ({
         (user && allowedRoles.includes(user?.role_name)) 
             ? (<Outlet /> ) 
             : (
-            user 
-                ? (<Navigate to="/notauthorized" replace />) 
+            auth_access_token
+                ? (<Navigate to="/" replace />) 
                 : (<Navigate to="/sign_in" replace />) 
-            
         )       
     )
 }

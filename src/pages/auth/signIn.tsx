@@ -7,21 +7,30 @@ import {z} from "zod";
 import axiosClient from "../../axios/axiosClient";
 import AuthFormComponent from "../../components/authFormComponent";
 import ErrorComponent from "./components/errorComponent";
-import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useAppStore } from "../../store/store";
 import { setUser } from "../../store";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const SignIn = () => {
 
     const navigate = useNavigate();
     const {
-        state :{
-            user
-        }, dispatch
+        state : {
+            user,
+            auth_access_token
+        },
+        dispatch
     } = useAppStore() as any;
+
+    useEffect(() => {
+        if(auth_access_token && user){
+            navigate("/dashboard")
+        }
+    },[auth_access_token, user])
+
 
     const {
         isPending,
@@ -57,12 +66,6 @@ const SignIn = () => {
     } = useForm({
         resolver : zodResolver(LoginFormSchema)
     });
-
-    useEffect(() => {
-        if(user){
-            
-        }
-    },[user])
 
     const onSubmit 
     : SubmitHandler<z.infer<typeof LoginFormSchema>> | any 

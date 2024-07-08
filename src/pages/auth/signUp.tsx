@@ -15,7 +15,6 @@ import { RegisterFormSchema } from "../../schema/AuthSchema";
 import { z } from "zod";
 
 const SignUp = () => {
-
     const {
         dispatch
     } : any = useAppStore();

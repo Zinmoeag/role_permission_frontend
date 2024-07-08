@@ -1,11 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { AuthContextType, useAuth } from "../context/authProvider";
 import useAxiosProtected from "./useAxiosProtected";
 import { getUser } from "../api";
 
-
 const useAuthUser = () => {
-    const {auth} = useAuth() as AuthContextType;
     const {axiosProtected} = useAxiosProtected();
 
     const {
@@ -19,6 +16,7 @@ const useAuthUser = () => {
         },
         staleTime : 3000
     });
+
 
     return {
         data

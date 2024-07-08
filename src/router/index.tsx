@@ -6,15 +6,17 @@ import SignUp from "../pages/auth/signUp";
 import ProtectedRoute from "../pages/protectedRoute";
 import Dashboard from "../pages/dashboard";
 import Pokemon from "../pages/pokemon";
+import ErrorBoundaryRouter from "../components/ErrorBoundaryRouter";
 
 const routes = createBrowserRouter([
     {
         path : "/",
         element : <AppLayout />,
+        ErrorBoundary : ErrorBoundaryRouter,
         children : [
             {
                 path : "sign_in",
-                element : <SignIn  />
+                element : <SignIn />
             },
             {
                 path : "sign_up",

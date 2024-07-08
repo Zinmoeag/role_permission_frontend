@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-import { AuthProvider } from "../context/authProvider";
 import { useIsFetching } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { useAppStore } from "../store";

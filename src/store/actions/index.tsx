@@ -10,7 +10,7 @@ export const setUser = (payload : any) => {
     }
 }
 
-export const setAccessToken = (payload : {auth_access_token : string}) => {
+export const setAccessToken = (payload : {auth_access_token : string | null}) => {
     return {
         type : ActionsType.SET_ACCESS_TOKEN,
         payload : payload
