@@ -5,6 +5,7 @@ import NotFound from "../pages/errors/not_found";
 import SignUp from "../pages/auth/signUp";
 import ProtectedRoute from "../pages/protectedRoute";
 import Dashboard from "../pages/dashboard";
+import Pokemon from "../pages/pokemon";
 
 const routes = createBrowserRouter([
     {
@@ -26,9 +27,17 @@ const routes = createBrowserRouter([
                     {
                         path : "",
                         element : <Dashboard />
-                    }
+                    },
+                    {
+                        path : "1",
+                        element : <Dashboard />
+                    },
                 ]
             },
+            {
+                path : "/pokemon",
+                element : <Pokemon />
+            }
         ]
     },
    

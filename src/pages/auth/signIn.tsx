@@ -7,17 +7,47 @@ import {z} from "zod";
 import axiosClient from "../../axios/axiosClient";
 import AuthFormComponent from "../../components/authFormComponent";
 import ErrorComponent from "./components/errorComponent";
-import { AuthContextType, useAuth } from "../../context/authProvider";
 import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { useAppStore } from "../../store/store";
+import { setUser } from "../../store";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
 
-    const {
-        auth,
-        setAuth
-    } = useAuth() as AuthContextType;
     const navigate = useNavigate();
+    const {
+        state :{
+            user
+        }, dispatch
+    } = useAppStore() as any;
+
+    const {
+        isPending,
+        mutate
+    } = useMutation({
+        mutationFn : (newData : any) => {
+            return axiosClient.post(loginApi(), newData);
+        },
+        onSuccess : (res) => {
+            dispatch(setUser(res.data.user));
+            navigate("/dashboard");
+        },
+        onError : (err) => {
+            if(err instanceof AxiosError){
+                if(err?.response?.status === 422) {
+                    setError('server_error', {
+                        message : err.response.data.message
+                    })
+                }else{
+                    setError('server_error', {
+                        message : "Internal Server Error"
+                    })
+                }
+            }
+        }
+    });
 
     const {
         register,
@@ -29,33 +59,15 @@ const SignIn = () => {
     });
 
     useEffect(() => {
-        if(auth){
-            navigate('/dashboard');
+        if(user){
+            
         }
-    },[auth?.accessToken])
+    },[user])
 
     const onSubmit 
     : SubmitHandler<z.infer<typeof LoginFormSchema>> | any 
     = async (data : SubmitHandler<z.infer<typeof LoginFormSchema>>) => {
-
-        axiosClient.post(loginApi(), data , {withCredentials : true})
-            .then(res => {
-                setAuth({
-                    user : res.data.user,
-                    accessToken : res.data.accessToken   
-                });
-            })
-            .catch(err => {
-                if(err?.response?.status === 422) {
-                    setError('server_error', {
-                        message : err.response.data.message
-                    })
-                }else{
-                    setError('server_error', {
-                        message : "Internal Server Error"
-                    })
-                }
-            })
+        mutate(data);
     }
 
     return (
@@ -81,8 +93,9 @@ const SignIn = () => {
                         <button
                         type="submit"
                         className="bg-blue-500 hover:bg-slate-950 py-2 text-slate-200 mt-1" 
+                        disabled = {isPending}
                         >
-                            login
+                            {isPending ? "Loading..." : "Sign In"}
                         </button>
                     </div>
                 </form>
@@ -91,4 +104,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn;
+export default SignIn

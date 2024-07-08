@@ -1,8 +1,6 @@
-import { useEffect } from "react"
-import useRefreshToken from "../../hooks/useRefreshToken"
-import { axiosProtected } from "../../axios/axiosProtected"
+
 import useAxiosProtected from "../../hooks/useAxiosProtected"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
 const Dashboard = () => {
     const {axiosProtected} = useAxiosProtected();
@@ -14,9 +12,9 @@ const Dashboard = () => {
         try{
             const res = await axiosProtected.get("/test");
         }catch(err){
+            // console.log(err)
             navigate("/sign_in")
         }
-       
     }
 
     return (
@@ -25,6 +23,9 @@ const Dashboard = () => {
                 Admin Dashboard
                 <form onSubmit={handleTest}>
                     <button type="submit">do test</button>
+                    <Link to="/dashboard/1"> 
+                        next
+                    </Link>
                 </form>
             </section>
         </>

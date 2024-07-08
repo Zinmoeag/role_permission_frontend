@@ -2,6 +2,7 @@ import { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { getGoogleOauthUrl } from "../api";
+import axiosClient from "../axios/axiosClient";
 
 type components = "LOGIN" | "SIGNUP"
 interface authParamsType {
@@ -45,14 +46,13 @@ const AuthFormComponent = ({children, component} : PropsWithChildren<{component 
                             {params.title}
                         </h3>
                         {children}
-                        <a 
-                        href={getGoogleOauthUrl()}
-                        className=""
-                        >
+
+                        <a href ={getGoogleOauthUrl()}>
                             <div className="w-full bg-amber-400 hover:bg-amber-600 text-slate-900 flex items-center justify-center text-center text-lg py-2">
                                 <FontAwesomeIcon icon={faGoogle} />
                             </div>
                         </a>
+                        
                         <div className="flex justify-center items-center py-1 text-sm">
                             <a href={params.redirect_url} className="text-sm hover:text-blue-600 text-slate-400">
                                 {params.redirect_text}

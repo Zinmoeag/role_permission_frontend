@@ -1,17 +1,16 @@
 import { axiosProtected } from "../axios/axiosProtected";
 import { useEffect } from "react";
-import { AuthContextType, useAuth } from "../context/authProvider";
 import axiosClient from "../axios/axiosClient";
 import { ServerReturnAuth } from "../type";
 import useRefreshToken from "./useRefreshToken";
-import { redirect } from "react-router-dom";
+import { setAccessToken, useAppStore } from "../store";
 
-const useAxiosProtected = () => {
+const useAxiosProtected = (accessToken = null) => {
 
-    const {
-        auth,
-        setAuth
-    } = useAuth() as AuthContextType;
+    const token = accessToken;
+    const {state : {
+        auth_access_token 
+    }} = useAppStore() as any;
 
     const {
         refresh
@@ -21,30 +20,33 @@ const useAxiosProtected = () => {
         const checkAccessToken = axiosProtected.interceptors.request.use(
             config => {
                 if(!config.headers["Authorization"]){
-                    config.headers["Authorization"] = "Bearer " + auth?.accessToken
+                    config.headers["Authorization"] = "Bearer " + token
                 }
                 return config;
             }, (error) => Promise.reject(error)
         )
 
         const checkAccessTokenResponse = axiosProtected.interceptors.response.use(
-            response => {
-                //still valid token
-                return response
+            (response ) => {
+                return response;
             },
             async (error) => {
                 const prevRequest = error.config;
                 if(error.response.status === 403){
                     try{
+
                         const data = await refresh() as ServerReturnAuth;
                         prevRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-                        setAuth({
-                            ...data
-                        })
+                        // setAuth({
+                        //     user : data.user,
+                        //     accessToken : data.accessToken,
+                        // })
+                        setAccessToken({
+                            auth_access_token : data.accessToken
+                        });
                         return axiosClient(prevRequest)
   
                     }catch(err : any){
-                        setAuth(null);
                         return Promise.reject(error);
                     }
                 }
@@ -52,10 +54,11 @@ const useAxiosProtected = () => {
         )
 
         return () => {
+            // console.log('clean up')
             axiosProtected.interceptors.request.eject(checkAccessToken);
             axiosProtected.interceptors.response.eject(checkAccessTokenResponse);
         }
-    },[auth, redirect])
+    },[auth_access_token])
 
     return {
         axiosProtected

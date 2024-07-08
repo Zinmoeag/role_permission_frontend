@@ -1,20 +1,25 @@
 import AuthFormComponent from "../../components/authFormComponent";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import Input from "../../components/Input";
 import ErrorComponent from "./components/errorComponent";
-// import axiosClient from "../axios/axiosClient";
-import { RegisterFormSchema } from "../../schema/AuthSchema";
 import axiosClient from "../../axios/axiosClient";
 import { RegisterApi } from "../../api";
-import { useAuth, AuthContextType } from "../../context/authProvider";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { setUser } from "../../store";
+import { useAppStore } from "../../store";
+import { SubmitHandler } from "react-hook-form";
+import { RegisterFormSchema } from "../../schema/AuthSchema";
+import { z } from "zod";
 
 const SignUp = () => {
 
-    const {auth, setAuth} = useAuth();
-    
+    const {
+        dispatch
+    } : any = useAppStore();
+
     const {
         register,
         handleSubmit,
@@ -24,24 +29,15 @@ const SignUp = () => {
         resolver : zodResolver(RegisterFormSchema)
     });
 
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if(auth?.accessToken){
-            navigate("/dashboard")
-        }
-
-    },[auth?.accessToken])
-
-    const onSubmit  = async (data : any) => {
-        axiosClient.post(RegisterApi(),data)
-            .then(res => {
-                setAuth({
-                    user : res.data.user,
-                    accessToken : res.data.accessToken   
-                })
-            })
-            .catch(err => {
+    const {
+        isPending,
+        mutate
+    } = useMutation({
+        mutationFn : (newData : any) => {
+            return axiosClient.post(RegisterApi(), newData)
+        },
+        onError : (err) => {
+            if(err instanceof AxiosError){
                 if(err?.response?.status === 409) {
                     setError('server_error', {
                         message : err.response.data.message
@@ -51,7 +47,21 @@ const SignUp = () => {
                         message : "Something went wrong. Please try again later."
                     })
                 }
-            })
+            }
+        },
+        onSuccess : (res) => {
+            dispatch(setUser(res.data.user));
+            navigate("/dashboard")
+        }
+    });
+
+    const navigate = useNavigate();
+
+    
+    const onSubmit 
+    : SubmitHandler<z.infer<typeof RegisterFormSchema>> | any 
+    = async (data : SubmitHandler<z.infer<typeof RegisterFormSchema>>) => {
+        mutate(data);
     }
 
     return (
@@ -82,7 +92,8 @@ const SignUp = () => {
                         {errors.server_error && (<ErrorComponent errorMessage={errors.server_error.message as string} />)}
                         <button
                         type="submit"
-                        className="bg-blue-500 hover:bg-slate-950 py-2 text-slate-200 mt-1" 
+                        className={`${isPending ? "bg-slate-600" : "bg-blue-500"} hover:bg-slate-950 py-2 text-slate-200 mt-1`} 
+                        disabled = {isPending}
                         >
                             Register
                         </button>

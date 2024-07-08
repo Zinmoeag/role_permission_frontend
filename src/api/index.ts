@@ -13,7 +13,7 @@ export const getGoogleOauthUrl = () => {
         "https://www.googleapis.com/auth/userinfo.profile",
         "https://www.googleapis.com/auth/userinfo.email",
         ].join(" "),
-        // state: from,
+        state: "http://localhost:4000/dashboard",
      }
 
     return targetUrl + "?" + qs.stringify(params);
@@ -23,3 +23,4 @@ export const getGoogleOauthUrl = () => {
 export const loginApi = () => "/login";
 export const RegisterApi = () => "/register";
 export const RefreshTokenApi = () => "/refreshToken";
+export const getUser = () => "/user";

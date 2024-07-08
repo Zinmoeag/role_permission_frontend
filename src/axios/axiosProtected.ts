@@ -1,6 +1,4 @@
 import axios from "axios";
-import axiosClient from "./axiosClient";
-import { RefreshTokenApi } from "../api";
 
 export const axiosProtected = axios.create({
     baseURL: import.meta.env.VITE_SERVER_URL,

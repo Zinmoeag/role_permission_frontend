@@ -1,28 +1,29 @@
-import { useAuth } from "../context/authProvider"
 import { Outlet } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import { Roles } from "../type";
-import { AuthContextType } from "../context/authProvider";
+import { Navigate } from "react-router-dom";
+import { useAppStore } from "../store";
 
 const ProtectedRoute = ({
     allowedRoles,
 } : {
     allowedRoles : Roles[],
 }) => {
+
     const {
-        auth,
-    } = useAuth() as AuthContextType;
+        state : {
+            user
+        }
+    } = useAppStore() as any;
 
     return (
-        (auth?.user?.role_name && allowedRoles.includes(auth?.user?.role_name)) 
-        ? (<Outlet /> ) 
-        : (
-            auth?.user ? (
-                <Navigate to="/notFound" replace />
-            ) : (
-                <Navigate to="/sign_in" replace />
-            ) 
-        )
+        (user && allowedRoles.includes(user?.role_name)) 
+            ? (<Outlet /> ) 
+            : (
+            user 
+                ? (<Navigate to="/notauthorized" replace />) 
+                : (<Navigate to="/sign_in" replace />) 
+            
+        )       
     )
 }
 
