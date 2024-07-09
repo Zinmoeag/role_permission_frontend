@@ -1,8 +1,5 @@
-import { AuthProvider } from "./context/authProvider"
 import AppRouter from "./router"
-
 function App() {
-
   return (
     <>
         <AppRouter />
@@ -10,4 +7,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

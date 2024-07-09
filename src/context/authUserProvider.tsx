@@ -47,17 +47,17 @@ const AuthUserProvider = ({
 
     useEffect(() => {
         if(isSuccess){
-            dispatch(setUser(user))
+            console.log("has user")
+            dispatch(setUser(user));
+            dispatch(setAccessToken({auth_access_token : user?.auth_access_token}));
+        }else if(isError){
+            console.log("no include user")
+            dispatch(setUser(null));
+            dispatch(setAccessToken({auth_access_token : null}));
         }
-    },[isSuccess])
-    
-    if(isPending) <div>loading</div>
+    },[isSuccess]);
 
-    if(isError) throw new AppError(StatusCode.BadRequest, "Bad Request")
-    
-    if(isSuccess) {
-        return children
-    }
+    return children
 }
 
 export default AuthUserProvider;

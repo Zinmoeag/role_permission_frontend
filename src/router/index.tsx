@@ -12,7 +12,7 @@ const routes = createBrowserRouter([
     {
         path : "/",
         element : <AppLayout />,
-        ErrorBoundary : ErrorBoundaryRouter,
+        // ErrorBoundary : ErrorBoundaryRouter,
         children : [
             {
                 path : "sign_in",
