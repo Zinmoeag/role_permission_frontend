@@ -17,7 +17,7 @@ const AppLayout = () => {
                 state.user ?
                 (
                     <>
-                        <Link to="/logout">dashboard </Link>
+                        <Link to="/dashboard">dashboard </Link>
                     </>
                 ) : (
                     <>

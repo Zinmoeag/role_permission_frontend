@@ -10,9 +10,10 @@ import ErrorBoundaryRouter from "../components/ErrorBoundaryRouter";
 
 const routes = createBrowserRouter([
     {
-        path : "/",
+        path : "",
         element : <AppLayout />,
-        // ErrorBoundary : ErrorBoundaryRouter,
+        //router error boundary
+        ErrorBoundary : ErrorBoundaryRouter,
         children : [
             {
                 path : "sign_in",
@@ -24,7 +25,7 @@ const routes = createBrowserRouter([
             },
             {
                 path : "dashboard",
-                element : <ProtectedRoute allowedRoles={["USER"]} />,
+                element : <ProtectedRoute allowedRoles={["ADMIN"]} />,
                 children : [
                     {
                         path : "",
@@ -43,11 +44,11 @@ const routes = createBrowserRouter([
         ]
     },
    
-    //not_found_route
-    {
-        path : "*",
-        element : <NotFound />
-    }
+    // //not_found_route
+    // {
+    //     path : "*",
+    //     element : <NotFound />
+    // }
 ])
 
 

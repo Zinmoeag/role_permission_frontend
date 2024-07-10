@@ -17,7 +17,7 @@ export default function PokemonList() {
         queryKey : ["pokemon"],
         staleTime : 30 * 1000,
         queryFn : () => {
-            return axios.get("https://pokeapi.co/api/v2/pokemon?offset=0&limit=1000");
+            return axios.get("https://pokeapi.co/api/v2/pokemon?offset=10&limit=100000");
         }
     })
 

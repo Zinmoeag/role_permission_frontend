@@ -18,10 +18,10 @@ const ProtectedRoute = ({
 
     return (
         (user && allowedRoles.includes(user?.role_name)) 
-            ? (<Outlet /> ) 
+            ? (<Outlet />) 
             : (
-            auth_access_token
-                ? (<Navigate to="/" replace />) 
+            user
+                ? (<Navigate to="/notauthorized" replace />) 
                 : (<Navigate to="/sign_in" replace />) 
         )       
     )

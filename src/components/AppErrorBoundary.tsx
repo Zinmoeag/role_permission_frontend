@@ -37,9 +37,9 @@ class AppErrorBoundary extends Component<AppErrorBoundaryWithChildren> {
                 switch(ErrorStatus){
                     case StatusCode.InternalServerError :
                         return <div>Internal Server Error</div>
-
                 }
             }
+            
             return <>error</>
         }
         return this.props.children

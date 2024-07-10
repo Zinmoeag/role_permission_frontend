@@ -1,19 +1,14 @@
-import { useRouteError } from "react-router-dom";
-import AppError from "../utils/AppError";
+import { ErrorResponse, useRouteError } from "react-router-dom";
 import { StatusCode } from "../utils/Status";
+import NotFound from "./errors/NotFound";
 
 export default function ErrorBoundaryRouter(){
-    let error = useRouteError() as Error | undefined
+    let error = useRouteError() as ErrorResponse | undefined
 
-    if(error instanceof AppError){
-        console.log(error)
-        switch(error.message){
-            case "500" :
-                return <div>Internal server Error</div>
-            case String(StatusCode.BadRequest) :
-                return <div>Bad Request</div>
-        }
-    };
+    switch(error?.status){
+        case StatusCode.NotFound :
+            return <NotFound/>
+    }
 
     return <div>Internal Server Error</div>
 }
