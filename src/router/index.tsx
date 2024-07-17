@@ -1,18 +1,17 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AppLayout from "../components/AppLayout";
 import SignIn from "../pages/auth/signIn";
-import NotFound from "../pages/errors/not_found";
 import SignUp from "../pages/auth/signUp";
 import ProtectedRoute from "../pages/protectedRoute";
 import Dashboard from "../pages/dashboard";
-import Pokemon from "../pages/pokemon";
 import ErrorBoundaryRouter from "../components/ErrorBoundaryRouter";
+import Products from "../pages/product";
 
 const routes = createBrowserRouter([
     {
         path : "",
         element : <AppLayout />,
-        //router error boundary
+        //router error boundary 
         ErrorBoundary : ErrorBoundaryRouter,
         children : [
             {
@@ -25,7 +24,7 @@ const routes = createBrowserRouter([
             },
             {
                 path : "dashboard",
-                element : <ProtectedRoute allowedRoles={["ADMIN"]} />,
+                element : <ProtectedRoute allowedRoles={["USER", "ADMIN"]} />,
                 children : [
                     {
                         path : "",
@@ -38,17 +37,11 @@ const routes = createBrowserRouter([
                 ]
             },
             {
-                path : "/pokemon",
-                element : <Pokemon />
+                path : "/products",
+                element : <Products />
             }
         ]
     },
-   
-    // //not_found_route
-    // {
-    //     path : "*",
-    //     element : <NotFound />
-    // }
 ])
 
 

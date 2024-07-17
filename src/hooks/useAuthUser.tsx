@@ -1,25 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import useAxiosProtected from "./useAxiosProtected";
-import { getUser } from "../api";
+import { useMemo } from "react";
+import { useAppStore } from "../store";
 
 const useAuthUser = () => {
-    const {axiosProtected} = useAxiosProtected();
-
     const {
-        isPending,
-        isError,
-        data
-    } = useQuery({
-        queryKey : ["getUser"],
-        queryFn : () => {
-            return axiosProtected.get(getUser());
-        },
-        staleTime : 3000
-    });
-
+        state : {
+            user
+        }
+    } = useAppStore() as any;
 
     return {
-        data
+        user : useMemo(() => {
+            return user
+        },[user]),
     };
 }
 

@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, PropsWithChildren, ReactNode } from "react";
+import { Component, ErrorInfo, ReactNode } from "react";
 import AppError from "../utils/AppError";
 import { StatusCode } from "../utils/Status";
 

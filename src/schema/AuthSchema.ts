@@ -15,6 +15,7 @@ export const AuthUser = z.object({
     id : z.string(),
     name : z.string(),
     email : z.string().email(),
+    avatar : z.string(),
     roleId : z.number(),
     role_name : z.string(),
     permission : z.array(z.object({

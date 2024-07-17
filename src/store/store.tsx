@@ -1,8 +1,9 @@
 
-import { ReactNode, createContext, useContext, useReducer } from "react";
+import { ReactNode, createContext, useContext, useEffect, useMemo, useReducer } from "react";
 import { Store } from "./types";
 import reducer from "./reducer";
 import { useCookies } from "react-cookie";
+import Themes from "../utils/Theme";
 
 const AppStoreContext = createContext<null | {state : Store, dispatch : any}>(null);
 
@@ -12,6 +13,8 @@ export const InitailAppState = ({
     return {
         user : null,
         auth_access_token : auth_access,
+        theme : Themes.defaultTheme,
+        local : "my",
     }
 };
 
@@ -21,7 +24,6 @@ const AppStoreProvider = ({children} : {children : ReactNode} ) => {
         auth_access : cookies?.auth_access || null
     }));
 
- 
     return (
         <AppStoreContext.Provider value={{state, dispatch}}>
             {children}

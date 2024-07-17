@@ -1,5 +1,4 @@
 import { Store } from "../types";
-import {InitailAppState} from "../store";
 import { Actions } from "../types";
 import ActionsType from "../actions";
 
@@ -14,6 +13,12 @@ const reducer = (state : Store , action : Actions) : Store => {
             return {
                 ...state,
                 auth_access_token : action.payload.auth_access_token
+            }
+        case ActionsType.SET_LOCAL : 
+            console.log(action.payload)
+            return {
+                ...state,
+                local : action.payload
             }
         default :
             return state;

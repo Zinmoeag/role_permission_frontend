@@ -1,18 +1,16 @@
 import { PropsWithChildren, createContext, useEffect } from "react";
-import { dataTagSymbol, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import useAxiosProtected from "../hooks/useAxiosProtected";
 import { getUser } from "../api";
 import { setAccessToken, useAppStore } from "../store";
 import { setUser } from "../store";
-import { useCookies } from "react-cookie";
-import AppError from "../utils/AppError";
-import { StatusCode } from "../utils/Status";
 
 const useAuthUser = () => {
     const {axiosProtected} = useAxiosProtected();
     const {state : {
         auth_access_token
     }} : any = useAppStore();
+
     
     const {
         data,
@@ -32,30 +30,27 @@ const useAuthUser = () => {
         isPending,
         isSuccess,
         isError,
-        user : data?.data.user
+        user : data?.data.user,
+        auth_access_token,
     };
 }
-
-const authUserContext = createContext(null);
 
 const AuthUserProvider = ({
     children
 } : PropsWithChildren) => {
 
-    const {isSuccess, isPending, isError, user} = useAuthUser();
+    const {isSuccess, isError, user, auth_access_token} = useAuthUser();
     const {dispatch} : any = useAppStore();
 
     useEffect(() => {
         if(isSuccess){
-            console.log("has user")
             dispatch(setUser(user));
-            dispatch(setAccessToken({auth_access_token : user?.auth_access_token}));
+            dispatch(setAccessToken({auth_access_token : auth_access_token}));
         }else if(isError){
-            console.log("no include user")
             dispatch(setUser(null));
             dispatch(setAccessToken({auth_access_token : null}));
         }
-    },[isSuccess]);
+    },[isSuccess, isError]);
 
     return children
 }

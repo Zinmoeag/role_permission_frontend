@@ -7,6 +7,7 @@ export const AuthUser = z.object({
     email : z.string().email(),
     roleId : z.number(),
     role_name : z.string(),
+    avatar : z.string(),
     permission : z.array(z.object({
         id : z.number(),
         action : z.string(),
@@ -16,5 +17,5 @@ export const AuthUser = z.object({
 
 export interface ServerReturnAuth {
     accessToken : string,
-    user : AuthUser
+    user : z.infer<typeof AuthUser>
 }
