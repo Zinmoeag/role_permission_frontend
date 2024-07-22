@@ -3,13 +3,20 @@ import { Locals } from "../../context/LocalizationProvider";
 const ActionsType = {
     SET_AUTH_USER : 'SET_AUTH_USER',
     SET_ACCESS_TOKEN : 'SET_ACCESS_TOKEN',
-    SET_LOCAL : "SET_LOCAL"
+    SET_LOGOUT : "SET_LOGOUT",
+    SET_LOCAL : "SET_LOCAL",
 } as const;
 
 export const setUser = (payload : any) => {
     return {
         type : ActionsType.SET_AUTH_USER, 
         payload : payload,
+    }
+}
+
+export const setLogout = () => {
+    return {
+        type : ActionsType.SET_LOGOUT
     }
 }
 

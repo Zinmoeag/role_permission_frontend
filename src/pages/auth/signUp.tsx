@@ -15,9 +15,12 @@ import { RegisterFormSchema } from "../../schema/AuthSchema";
 import { z } from "zod";
 
 const SignUp = () => {
+    
+    const navigate = useNavigate();
     const {
         dispatch
     } : any = useAppStore();
+
 
     const {
         register,
@@ -49,12 +52,10 @@ const SignUp = () => {
             }
         },
         onSuccess : (res) => {
-            dispatch(setUser(res.data.user));
-            navigate("/dashboard")
+            navigate('/verify')
         }
     });
 
-    const navigate = useNavigate();
 
     
     const onSubmit 
@@ -69,6 +70,7 @@ const SignUp = () => {
             component="SIGNUP"
            >
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    {isPending && (<p className="text-slate-500">Please wait...</p>)}
                     <div className="flex flex-col gap-2 pb-4 border-b-2 mb-4">
                         <Input
                         label="Name" 

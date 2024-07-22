@@ -1,5 +1,5 @@
 
-import { ReactNode, createContext, useContext, useEffect, useMemo, useReducer } from "react";
+import { ReactNode, createContext, useContext, useReducer } from "react";
 import { Store } from "./types";
 import reducer from "./reducer";
 import { useCookies } from "react-cookie";
@@ -13,7 +13,7 @@ export const InitailAppState = ({
     return {
         user : null,
         auth_access_token : auth_access,
-        theme : Themes.defaultTheme,
+        theme : Themes.theme2,
         local : "my",
     }
 };

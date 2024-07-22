@@ -4,13 +4,13 @@ import Navbar from "../features/Navbar";
 import useAuthUser from "../hooks/useAuthUser";
 
 const AppLayout = () => {
-    // const {state : {
-    //     user
-    // }} = useAppStore() as any;
-
-    const {
+    const {state : {
         user
-    } = useAuthUser();
+    }} = useAppStore() as any;
+
+    // const {
+    //     user
+    // } = useAuthUser();
 
     return (
         <>
@@ -20,7 +20,10 @@ const AppLayout = () => {
                     <div className="flex gap-2">
                     <Navbar.localToggler />
                     {user ? (
-                        <Navbar.ProfileBtn />
+                        <>
+                            <Navbar.ProfileBtn />
+                            <Navbar.LogoutBtn />
+                        </>
                     ) : (
                         <Navbar.AuthBtn />
                     )}  

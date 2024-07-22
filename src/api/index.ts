@@ -36,5 +36,7 @@ export function getGitHubUrl() {
 
 export const loginApi = () => "/login";
 export const RegisterApi = () => "/register";
+export const LogoutApi = () => '/logout';
 export const RefreshTokenApi = () => "/refreshToken";
 export const getUser = () => "/user";
+export const VerifyEmailApi = () => `/verify_email`;

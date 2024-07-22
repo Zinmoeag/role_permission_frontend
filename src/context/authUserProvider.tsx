@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useEffect } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosProtected from "../hooks/useAxiosProtected";
 import { getUser } from "../api";

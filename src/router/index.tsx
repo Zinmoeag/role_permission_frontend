@@ -6,6 +6,8 @@ import ProtectedRoute from "../pages/protectedRoute";
 import Dashboard from "../pages/dashboard";
 import ErrorBoundaryRouter from "../components/ErrorBoundaryRouter";
 import Products from "../pages/product";
+import PlzVerify from "../pages/auth/plzverrify";
+import VerifyEmail from "../pages/auth/verifyEmail";
 
 const routes = createBrowserRouter([
     {
@@ -21,6 +23,14 @@ const routes = createBrowserRouter([
             {
                 path : "sign_up",
                 element : <SignUp  />
+            },
+            {
+                path : "verify",
+                element : <PlzVerify  />
+            },
+            {
+                path : "verify_email/:verificationCode",
+                element : <VerifyEmail  />
             },
             {
                 path : "dashboard",

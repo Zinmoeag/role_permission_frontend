@@ -4,13 +4,14 @@ const Input = ({
     name,
     register,
     validation = null,
-    errorMessage = null
+    errorMessage = null,
 } : {
     label : string,
     name : string,
     register : any,
     validation? : object | null,
-    errorMessage? : any
+    errorMessage? : any,
+    valus ?: string | null
 }) => {
     return (
         <>

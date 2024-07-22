@@ -11,6 +11,10 @@ export const RegisterFormSchema = z.object({
     password : z.string().min(8),
 })
 
+export const VerifyEmailSchema = z.object({
+    verification_code : z.string().min(6)
+})
+
 export const AuthUser = z.object({
     id : z.string(),
     name : z.string(),

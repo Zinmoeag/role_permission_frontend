@@ -14,6 +14,12 @@ const reducer = (state : Store , action : Actions) : Store => {
                 ...state,
                 auth_access_token : action.payload.auth_access_token
             }
+        case ActionsType.SET_LOGOUT :
+            return {
+                ...state,
+                user : null,
+                auth_access_token : null,
+            }
         case ActionsType.SET_LOCAL : 
             console.log(action.payload)
             return {

@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { getGitHubUrl, getGoogleOauthUrl } from "../api";
 import axiosClient from "../axios/axiosClient";
+import { Link } from "react-router-dom";
 
 type components = "LOGIN" | "SIGNUP"
 interface authParamsType {
@@ -48,24 +49,24 @@ const AuthFormComponent = ({children, component} : PropsWithChildren<{component 
                         {children}
 
                         <div className="flex flex-col gap-2">
-                            <a href ={getGoogleOauthUrl()}>
+                            <Link to ={getGoogleOauthUrl()}>
                                 <div className="w-full bg-amber-400 hover:bg-amber-600 text-slate-900 flex items-center justify-center text-center text-lg py-2">
                                     <FontAwesomeIcon icon={faGoogle} />
                                 </div>
-                            </a>
+                            </Link>
 
-                            <a href ={getGitHubUrl()}>
+                            <Link to ={getGitHubUrl()}>
                                 <div className="w-full bg-slate-900 hover:bg-slate-600 text-slate-100 flex items-center justify-center text-center text-lg py-2">
                                     <FontAwesomeIcon icon={faGithub} />
                                 </div>
-                            </a>
+                            </Link>
                         </div>
 
                         
                         <div className="flex justify-center items-center py-1 text-sm">
-                            <a href={params.redirect_url} className="text-sm hover:text-blue-600 text-slate-400">
+                            <Link to={params.redirect_url} className="text-sm hover:text-blue-600 text-slate-400">
                                 {params.redirect_text}
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </div>
