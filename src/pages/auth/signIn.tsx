@@ -40,12 +40,26 @@ const SignIn = () => {
             return axiosClient.post(loginApi(), newData);
         },
         onSuccess : (res) => {
+            console.log(res)
+            if(res.data?.is_verfiy_email_sent){
+                //if user is not verified, verify user account
+                navigate('/verify')
+                return;
+            }
+            // login success
             dispatch(setUser(res.data.user));
             navigate("/dashboard");
         },
         onError : (err) => {
             if(err instanceof AxiosError){
                 if(err?.response?.status === 422) {
+                    if(err.response?.data?.errors){
+                        Object.keys(err.response?.data?.errors).forEach((key) => {
+                            setError(key, {
+                                message : err.response?.data?.errors[key][0]
+                            })
+                        })  
+                    }
                     setError('server_error', {
                         message : err.response.data.message
                     })

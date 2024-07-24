@@ -1,6 +1,9 @@
 import qs from "qs";
 
+export const healthCheckApi = () => "/healthCheck";
+
 export const getGoogleOauthUrl = () => {
+
      const targetUrl = "https://accounts.google.com/o/oauth2/v2/auth";
 
      const params = {
@@ -32,7 +35,7 @@ export function getGitHubUrl() {
    const qs = new URLSearchParams(options);
  
    return `${rootURl}?${qs.toString()}`;
- }
+}
 
 export const loginApi = () => "/login";
 export const RegisterApi = () => "/register";

@@ -8,7 +8,6 @@ import { RegisterApi } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { setUser } from "../../store";
 import { useAppStore } from "../../store";
 import { SubmitHandler } from "react-hook-form";
 import { RegisterFormSchema } from "../../schema/AuthSchema";

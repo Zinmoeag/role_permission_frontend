@@ -35,13 +35,15 @@ const useAxiosProtected = (accessToken = null) => {
                 if(error.response.status === 403){
                     try{
                         const data = await refresh() as ServerReturnAuth;
-                        prevRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+                        
+                        prevRequest.headers.Authorization = `Bearer ${data.access_token}`;
                         setAccessToken({
-                            auth_access_token : data.accessToken
+                            auth_access_token : data.access_token
                         });
                         return axiosClient(prevRequest)
   
                     }catch(err : any){
+                        console.log("errr",err)
                         setAccessToken({
                             auth_access_token : null
                         });

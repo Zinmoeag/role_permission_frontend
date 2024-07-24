@@ -8,6 +8,7 @@ const useRefreshToken = () => {
             const {data} : {data : ServerReturnAuth} = await axiosCient.post(RefreshTokenApi());
             return data;
         }catch(err : any){
+            console.log("refrefh",err)
             // throw new AppError(StatusCode.Unauthorized, "invalid refresh token");
         }
     }

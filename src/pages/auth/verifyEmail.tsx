@@ -37,10 +37,11 @@ const VerifyEmail = () => {
             navigate("/sign_in")
         },  
         onError : (err) => {
+            console.log(err)
             if(err instanceof AxiosError){
-                if(err.response?.status === 403){
+                if(err.response?.status === 400){
                     setError("verficationFailed", {
-                        message : err?.response?.data.message || "verification failed"
+                        message : err.response.data.message as string
                     })
                     return;
                 }
@@ -58,7 +59,7 @@ const VerifyEmail = () => {
 
     const onSubmit = (cleanData : any) => {
         mutate(cleanData);
-    }  
+    }
 
     return (
         <div>
@@ -80,7 +81,7 @@ const VerifyEmail = () => {
                                 verify
                             </button>
                         </div>
-                        {errors?.verficationFailed?.message && <p className="text-red-500 text-sm text-center error_block">verification failed</p>}
+                        {errors?.verficationFailed?.message && <p className="text-red-500 text-sm text-center error_block">{(errors?.verficationFailed?.message as string)}</p>}
                     </form>
                 </div>
             </main>

@@ -15,7 +15,7 @@ export const AuthUser = z.object({
     }))
 });
 
-export interface ServerReturnAuth {
-    accessToken : string,
+export type ServerReturnAuth = {
+    access_token : string
     user : z.infer<typeof AuthUser>
 }

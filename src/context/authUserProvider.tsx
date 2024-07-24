@@ -42,6 +42,9 @@ const AuthUserProvider = ({
     const {isSuccess, isError, user, auth_access_token} = useAuthUser();
     const {dispatch} : any = useAppStore();
 
+
+    console.log(isSuccess, isError, user, auth_access_token);
+
     useEffect(() => {
         if(isSuccess){
             dispatch(setUser(user));

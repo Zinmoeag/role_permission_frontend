@@ -1,7 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import AppError from "../utils/AppError";
 import { StatusCode } from "../utils/Status";
-
+import IntertnalServerError from "../pages/errors/global/InternalServerError";
 interface AppErrorBoundaryWithChildren {
     children : ReactNode
 }
@@ -33,10 +33,11 @@ class AppErrorBoundary extends Component<AppErrorBoundaryWithChildren> {
     render(): ReactNode {
         if(this.state.hasError){
             if(this.state.error){
+                // console.log(this.state)
                 const ErrorStatus = AppError.BreakMessage(this.state.error.message)[1]
                 switch(ErrorStatus){
                     case StatusCode.InternalServerError :
-                        return <div>Internal Server Error</div>
+                        return <IntertnalServerError />
                 }
             }
             

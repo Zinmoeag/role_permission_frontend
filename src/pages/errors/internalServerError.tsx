@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const InternalServerError = () => {
-
+  
   const navigate = useNavigate();
 
   const handleGoBack = () => {
