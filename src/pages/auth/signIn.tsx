@@ -47,7 +47,7 @@ const SignIn = () => {
                 return;
             }
             // login success
-            dispatch(setUser(res.data.user));
+            dispatch(setUser(res.data.usper));
             navigate("/dashboard");
         },
         onError : (err) => {

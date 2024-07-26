@@ -14,7 +14,7 @@ import { LogoutApi } from "../api";
 import axiosClient from "../axios/axiosClient";
 
 type propsWithState = PropsWithChildren & {
-    authUser : z.infer<typeof AuthUser>
+    authUser : z.infer<typeof AuthUser>,
 }
 
 type NavBarContextType = {
@@ -40,10 +40,9 @@ const Navbar = ({children, authUser} : propsWithState) => {
         local,
         changeLocal
     } = useLocalization();
-
     return (
         <NavBarContext.Provider value={{user : authUser, local, changeLocal }}>
-            <div id="nav" className="px-[4rem] bg-skin-main h-[5rem] w-full flex items-center fixed top-0">
+            <div id="nav" className={`px-[4rem] bg-white  text-slate-800 max-h-layoutHeight h-full flex items-center shadow-md`}>
                 <div className="flex justify-between items-center w-full">
                     {children}
                 </div>
@@ -56,7 +55,7 @@ Navbar.Brand = () => {
     const {t} = useTranslation();
     return (
         <div id="brand">
-            <h3 className="text-2xl uppercase font-bold text-white">{t("brand_name")}</h3>
+            <h3 className="text-lg uppercase font-bold">{t("brand_name")}</h3>
         </div>
     )
 }
@@ -77,7 +76,7 @@ Navbar.ProfileBtn = memo(() => {
                         name={user?.name}
                         avatar={user?.avatar}
                     />
-                    <h4 className="text-white text-sm">{user.name}</h4>
+                    <h4 className="  text-sm">{user.name}</h4>
                 </div>
             </Link>
         </div>
@@ -89,7 +88,7 @@ Navbar.AuthBtn = () => {
     const {t} = useTranslation();
 
     return (
-        <div className="flex gap-2 text-white">
+        <div className="flex gap-2  ">
             <Link to="/sign_in">{t("login_text")}</Link>
             <div>|</div>
             <Link to="/sign_up">register </Link>
@@ -121,7 +120,7 @@ Navbar.LogoutBtn = () => {
     return (
         <>
             <button 
-            className="text-white"
+            className=" "
             onClick={handleLogout}
             > Logout
             </button>

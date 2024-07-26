@@ -13,7 +13,7 @@ export const InitailAppState = ({
     return {
         user : null,
         auth_access_token : auth_access,
-        theme : Themes.theme2,
+        theme : Themes.dark,
         local : "my",
     }
 };

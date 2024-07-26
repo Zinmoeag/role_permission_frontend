@@ -18,6 +18,15 @@ export default {
           true: 'rgb(var(--true) / <alpha-value>)',
           transparent: 'var(--transparent)',
         }
+      },
+      spacing : {
+        sideBar : "var(--sideBar)",
+        appMargin : "var(--appMargin)",
+        layoutHeight : "var(--layoutHeight)"
+
+        // sideBar : "15rem",
+        // appMargin : "5rem",
+        // layoutHeight : "3rem"
       }
     },
   },

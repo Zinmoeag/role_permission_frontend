@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CardContainer from "../../features/card";
-
+ 
 const Products = () => {
     const endpoint = "https://fakestoreapi.com/products";
 
@@ -13,12 +13,12 @@ const Products = () => {
         error
     } = useQuery({
         queryKey : ["product"],
-        queryFn : () => {
+        queryFn : () => { 
             return axios.get(endpoint);
         },
         staleTime : 60 * 60 * 1000
     });
-    
+
     return (
         <>
         <h1 className="text-2xl">Products</h1>

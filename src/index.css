@@ -13,6 +13,11 @@
       --cover: 1 18 31;
       --true : 6 148 22;
       --transparent : transparent;
+
+      --sideBar : 15rem;
+      --appMargin : 5rem;
+      --layoutHeight : 3rem;
+      
     }
     .theme1{
       --main: 141 73 58;
@@ -29,8 +34,12 @@
         --main : 242 120 159;
         --secondary : 254 227 236
     }
-    .dark_theme {
+    .dark {
         --mian : 34 40 49;
         --secondary : 49 54 63;
+    }
+
+    .hide_side_bar {    
+        background-color: red;
     }
   }
