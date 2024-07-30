@@ -3,12 +3,12 @@ import { useAppStore } from "../store";
 import Navbar from "../features/Navbar";
 import Sidebar from "./layout/sidebar";
 import { useState } from "react";
+import NavigatorBar from "./layout/NavigatorBar";
 
 const AppLayout = () => {
     const {state : {
         user
     }} = useAppStore() as any;
-
     const [isSideBarOn, setIsSideBarOn] = useState(true);
 
     return (
@@ -17,12 +17,14 @@ const AppLayout = () => {
                 <Sidebar 
                 isSideBarOn = {isSideBarOn}
                 />
-                <div className={`${isSideBarOn ? "ms-sideBar" : "ps-0"}`}>
-                    <div className={`fixed ${isSideBarOn ? "left-sideBar" : "left-0"} right-0 h-layoutHeight`}>
+                <div className={`${isSideBarOn ? "ms-sideBar" : "ms-0"} duration-500`}>
+                    <div className={`fixed ${isSideBarOn ? "left-sideBar" : "left-0"} top-0 right-0 h-layoutHeight`}>
                         <Navbar 
                         authUser={user}
                         >
-                            <Navbar.Brand />
+                            <Navbar.sideBarToggler
+                            onClick={() => setIsSideBarOn(prev => !prev)}
+                            />
                             <div className="flex gap-2">
                             <Navbar.localToggler />
                             {user ? (
@@ -36,9 +38,8 @@ const AppLayout = () => {
                             </div>
                         </Navbar>
                     </div>
-                    <div className="mx-4 h-full">
-                        <div className="h-[30rem]">hhe</div>
-                        {/* <Navbar.localToggler /> */}
+                    <div className="px-6 mt-layoutHeight h-full bg-white">
+                        <NavigatorBar />
                         <Outlet />
                     </div>
                 </div>

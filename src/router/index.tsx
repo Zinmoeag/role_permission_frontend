@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Outlet, RouterProvider} from "react-router-dom";
 import AppLayout from "../components/AppLayout";
 import SignIn from "../pages/auth/signIn";
 import SignUp from "../pages/auth/signUp";
@@ -8,6 +8,7 @@ import ErrorBoundaryRouter from "../components/ErrorBoundaryRouter";
 import Products from "../pages/product";
 import PlzVerify from "../pages/auth/plzverrify";
 import VerifyEmail from "../pages/auth/verifyEmail";
+import ThemePage from "../pages/setting/theme";
 
 const routes = createBrowserRouter([
     {
@@ -31,6 +32,16 @@ const routes = createBrowserRouter([
             {
                 path : "verify_email/:verificationCode",
                 element : <VerifyEmail  />
+            },
+            {
+                path  : "setting",
+                element : <><Outlet /></>,
+                children : [
+                    {
+                        path : "theme",
+                        element : <ThemePage />
+                    },
+                ]
             },
             {
                 path : "dashboard",

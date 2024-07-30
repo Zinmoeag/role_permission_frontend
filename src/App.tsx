@@ -25,8 +25,10 @@ function App() {
 
   return (
     <>
-      <main className={theme}>
-        <AppRouter />
+      <main className={`${theme}`}>
+        <div className="bg-white">
+          <AppRouter />
+        </div>
       </main>
     </>
   )

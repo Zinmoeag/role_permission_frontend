@@ -7,11 +7,12 @@ import { StatusCode } from "../utils/Status";
 import DisplayAvatar from "../components/DisplayAvatar";
 import { useTranslation } from "react-i18next";
 import { useLocalization } from "../context/LocalizationProvider";
-import useAuthUser from "../hooks/useAuthUser";
 import { setLogout, useAppStore } from "../store";
 import { useMutation } from "@tanstack/react-query";
 import { LogoutApi } from "../api";
 import axiosClient from "../axios/axiosClient";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 type propsWithState = PropsWithChildren & {
     authUser : z.infer<typeof AuthUser>,
@@ -42,7 +43,7 @@ const Navbar = ({children, authUser} : propsWithState) => {
     } = useLocalization();
     return (
         <NavBarContext.Provider value={{user : authUser, local, changeLocal }}>
-            <div id="nav" className={`px-[4rem] bg-white  text-slate-800 max-h-layoutHeight h-full flex items-center shadow-md`}>
+            <div id="nav" className={`px-4 bg-white  text-slate-800 max-h-layoutHeight h-full flex items-center shadow-md`}>
                 <div className="flex justify-between items-center w-full">
                     {children}
                 </div>
@@ -123,6 +124,20 @@ Navbar.LogoutBtn = () => {
             className=" "
             onClick={handleLogout}
             > Logout
+            </button>
+        </>
+    )
+}
+
+
+Navbar.sideBarToggler = ({onClick} : {onClick : () => any}) => {
+    // onClick();
+    return (
+        <>
+            <button
+            onClick={onClick}
+            >
+                <FontAwesomeIcon icon={faBars} />
             </button>
         </>
     )

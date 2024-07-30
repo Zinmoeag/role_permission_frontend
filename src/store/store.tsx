@@ -14,7 +14,7 @@ export const InitailAppState = ({
         user : null,
         auth_access_token : auth_access,
         theme : Themes.dark,
-        local : "my",
+        local : "en",
     }
 };
 
