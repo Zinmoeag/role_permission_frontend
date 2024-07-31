@@ -7,6 +7,7 @@ const reducer = (state : Store , action : Actions) : Store => {
         case ActionsType.SET_AUTH_USER :
             return {
                 ...state,
+                isLoggIn : true,
                 user : action.payload
             }
         case ActionsType.SET_ACCESS_TOKEN :
@@ -17,6 +18,7 @@ const reducer = (state : Store , action : Actions) : Store => {
         case ActionsType.SET_LOGOUT :
             return {
                 ...state,
+                isLoggIn : false,
                 user : null,
                 auth_access_token : null,
             }
@@ -25,6 +27,11 @@ const reducer = (state : Store , action : Actions) : Store => {
             return {
                 ...state,
                 local : action.payload
+            }
+        case ActionsType.SET_THEME : 
+            return {
+                ...state,
+                theme : action.payload
             }
         default :
             return state;

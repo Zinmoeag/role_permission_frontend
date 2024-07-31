@@ -16,6 +16,8 @@ export default {
           sixth: 'rgb(var(--sixth) / <alpha-value>)',
           cover: 'rgb(var(--cover) / <alpha-value>)',
           true: 'rgb(var(--true) / <alpha-value>)',
+          active: 'rgb(var(--active) / <alpha-value>)',
+
           transparent: 'var(--transparent)',
         }
       },

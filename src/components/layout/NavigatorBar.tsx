@@ -14,11 +14,11 @@ const NavigatorBar = () => {
                         <Link
                         to={`/${path.url}`} 
                         key={path.url}
-                        className={`${paths.length - 1 === idx ? "text-slate-800" : "text-slate-400 "} hover:text-skin-primary text-lg`}
+                        className={`${paths.length - 1 === idx ? "text-skin-active font-bold" : "text-slate-400 "} hover:text-skin-primary text-lg`}
                         >
-                            {path.name}
+                            {path.name[0].toUpperCase() + path.name.slice(1)}
                         </Link>
-                        {paths.length - 1 !== idx && <span className="text-skin-secondary flex items-center justify-center">&gt;</span>}
+                        {paths.length - 1 !== idx && <span className="text-skin-third flex items-center justify-center">&gt;</span>}
                     </>
                 ))}
             </div>

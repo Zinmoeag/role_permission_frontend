@@ -13,11 +13,11 @@ const AppLayout = () => {
 
     return (
         <>
-            <div className="bg-skin-secondary">
+            <div className="bg-main-main">
                 <Sidebar 
                 isSideBarOn = {isSideBarOn}
                 />
-                <div className={`${isSideBarOn ? "ms-sideBar" : "ms-0"} duration-500`}>
+                <div className={`${isSideBarOn ? "ms-sideBar" : "ms-0"} duration-500 bg-skin-main min-h-screen`}>
                     <div className={`fixed ${isSideBarOn ? "left-sideBar" : "left-0"} top-0 right-0 h-layoutHeight`}>
                         <Navbar 
                         authUser={user}
@@ -38,7 +38,7 @@ const AppLayout = () => {
                             </div>
                         </Navbar>
                     </div>
-                    <div className="px-6 mt-layoutHeight h-full bg-white">
+                    <div className="px-6 pt-layoutHeight">
                         <NavigatorBar />
                         <Outlet />
                     </div>

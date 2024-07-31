@@ -11,9 +11,10 @@ export const InitailAppState = ({
     auth_access = null
 }) : Store => {
     return {
+        isLoggIn : false,
         user : null,
         auth_access_token : auth_access,
-        theme : Themes.dark,
+        theme : Themes.defaultTheme,
         local : "en",
     }
 };

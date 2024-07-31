@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer base {
-    :root{
-      --main: 13 146 118;
+    :root {
+      --sideBar : 15rem;
+      --appMargin : 5rem;
+      --layoutHeight : 3rem;
+    }
+    .default_theme{
+      --main: 240 247 247;
       --secondary: 255 246 233;
       --third: 6 6 6;
       --fourth: 255 255 255;
@@ -12,12 +17,8 @@
       --sixth : 108 108 108;
       --cover: 1 18 31;
       --true : 6 148 22;
-      --transparent : transparent;
-
-      --sideBar : 15rem;
-      --appMargin : 5rem;
-      --layoutHeight : 3rem;
-      
+      --active : 80 145 242;
+      --transparent : transparent;      
     }
     .theme1{
       --main: 141 73 58;
@@ -28,6 +29,7 @@
       --sixth : 129 147 147;
       --cover: 1 18 31;
       --true : 6 148 22;
+      --active : 191 255 0;
       --transparent : transparent;
     }
     .theme2{
@@ -35,8 +37,8 @@
         --secondary : 254 227 236
     }
     .dark {
-        --mian : 34 40 49;
-        --secondary : 49 54 63;
+        --main : 34 40 49;
+        --secondary : 54, 59 59;
     }
 
     .hide_side_bar {    

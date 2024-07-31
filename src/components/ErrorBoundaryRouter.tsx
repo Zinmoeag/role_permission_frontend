@@ -21,6 +21,8 @@ export default function ErrorBoundaryRouter(){
             return <NotFound/>
         case StatusCode.Forbidden : 
             return <AccessDenied />
+        case StatusCode.Unauthorized :
+            return <AccessDenied />
         default : 
             return <InternalServerError />
     }

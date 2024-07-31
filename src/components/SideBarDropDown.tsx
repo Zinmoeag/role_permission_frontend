@@ -72,7 +72,7 @@ const SideBarDropDown = ({
 
 SideBarDropDown.ContentItem = ({content} : {content : Content}) => {
     return (
-        <li className="w-full flex item-center justify-content gap-2 border-s-4 border-slate-300 px-3">
+        <li className="w-full flex item-center justify-content gap-2 border-s-4 border-slate-300 px-3 py-1 hover:text-skin-active">
             {content.type === "btn" ? (
                 <SideBarDropDown.Btn
                 label={content.name}
@@ -92,7 +92,7 @@ SideBarDropDown.Btn = ({label, onClick} : {label : string, onClick : () => void}
     return <>
             <button 
                 onClick={onClick} 
-                className="z-10 w-full text-left"
+                className="z-10 w-full text-left hover:text-skin-active"
                 >{label}
             </button>
     </>

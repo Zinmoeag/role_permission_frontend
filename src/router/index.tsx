@@ -13,7 +13,7 @@ import ThemePage from "../pages/setting/theme";
 const routes = createBrowserRouter([
     {
         path : "",
-        element : <AppLayout />,
+        element : <><Outlet /></>,
         //router error boundary 
         ErrorBoundary : ErrorBoundaryRouter,
         children : [
@@ -34,33 +34,43 @@ const routes = createBrowserRouter([
                 element : <VerifyEmail  />
             },
             {
-                path  : "setting",
-                element : <><Outlet /></>,
-                children : [
-                    {
-                        path : "theme",
-                        element : <ThemePage />
-                    },
-                ]
-            },
-            {
                 path : "dashboard",
-                element : <ProtectedRoute allowedRoles={["USER", "ADMIN"]} />,
+                element : <>
+                    <ProtectedRoute allowedRoles={["USER","ADMIN"]}>
+                        <AppLayout />
+                    </ProtectedRoute>
+                </>,
                 children : [
                     {
-                        path : "",
-                        element : <Dashboard />
+                        path  : "setting",
+                        element : <><Outlet /></>,
+                        children : [
+                            {
+                                path : "theme",
+                                element : <ThemePage />
+                            },
+                        ]
                     },
+                    // {
+                    //     path : "dashboard",
+                    //     element : <ProtectedRoute allowedRoles={["USER", "ADMIN"]}></ProtectedRoute>,
+                    //     children : [
+                    //         {
+                    //             path : "",
+                    //             element : <Dashboard />
+                    //         },
+                    //         {
+                    //             path : "1",
+                    //             element : <Dashboard />
+                    //         },
+                    //     ]
+                    // },
                     {
-                        path : "1",
-                        element : <Dashboard />
-                    },
+                        path : "products",
+                        element : <Products />
+                    }
                 ]
             },
-            {
-                path : "/products",
-                element : <Products />
-            }
         ]
     },
 ])
