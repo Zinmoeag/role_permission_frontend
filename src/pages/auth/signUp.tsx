@@ -12,6 +12,9 @@ import { useAppStore } from "../../store";
 import { SubmitHandler } from "react-hook-form";
 import { RegisterFormSchema } from "../../schema/AuthSchema";
 import { z } from "zod";
+import Form from "../../features/form/Form";
+import { useState } from "react";
+
 
 const SignUp = () => {
     
@@ -20,15 +23,8 @@ const SignUp = () => {
         dispatch
     } : any = useAppStore();
 
-
-    const {
-        register,
-        handleSubmit,
-        setError,
-        formState: { errors },
-    } = useForm({
-        resolver : zodResolver(RegisterFormSchema)
-    });
+    const [returnError, setReturnError] = useState< Record<string, string>[] | null>(null);
+    const [serverError, setServerError]= useState<string | null>(null);
 
     const {
         isPending,
@@ -40,13 +36,11 @@ const SignUp = () => {
         onError : (err) => {
             if(err instanceof AxiosError){
                 if(err?.response?.status === 409) {
-                    setError('server_error', {
-                        message : err.response.data.message
-                    })
+                    setReturnError([{
+                        form_error : err.response.data.message
+                    }])
                 }else{
-                    setError("server_error", {
-                        message : "Something went wrong. Please try again later."
-                    })
+                    setServerError("Something went wrong. Please try again later.")
                 }
             }
         },
@@ -68,37 +62,36 @@ const SignUp = () => {
            <AuthFormComponent
             component="SIGNUP"
            >
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {isPending && (<p className="text-slate-500">Please wait...</p>)}
-                    <div className="flex flex-col gap-2 pb-4 border-b-2 mb-4">
-                        <Input
-                        label="Name" 
-                        name="name" 
-                        register={register}
-                        errorMessage={errors.name?.message && errors.name?.message}
+                <Form
+                    returnError={returnError}
+                    schema={RegisterFormSchema}
+                    onSubmit={onSubmit}
+                 >
+                    <div className="my-2">
+                        <Form.TextInput 
+                            className="my-2"
+                            label="Name" 
+                            name="name" 
+                            placeholder="Enter your name"
                         />
-                        <Input
-                        label="Email" 
-                        name="email" 
-                        register={register}
-                        errorMessage={errors.email?.message && errors.email?.message}
+                        <Form.TextInput 
+                            className="my-2"
+                            label="Email" 
+                            name="email" 
+                            placeholder="Enter your email"
                         />
-                        <Input 
-                        label="Password" 
-                        name="password" 
-                        register={register}
-                        errorMessage={errors.password?.message && errors.password?.message}
+                        <Form.PasswordInput 
+                            className="my-2"
+                            passwordToggler = {true}
+                            label="Password" 
+                            name="password" 
+                            placeholder="password"
                         />
-                        {errors.server_error && (<ErrorComponent errorMessage={errors.server_error.message as string} />)}
-                        <button
-                        type="submit"
-                        className={`${isPending ? "bg-slate-600" : "bg-blue-500"} hover:bg-slate-950 py-2 text-slate-200 mt-1`} 
-                        disabled = {isPending}
-                        >
-                            Register
-                        </button>
+                        <Form.SubmitBtn 
+                            text="Register" 
+                        />
                     </div>
-                </form>    
+                </Form>
            </AuthFormComponent>
         </>
     )
