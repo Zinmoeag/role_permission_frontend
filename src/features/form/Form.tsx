@@ -11,6 +11,7 @@ const FormContext = createContext<any>(null);
 
 type formProps<T extends ZodSchema<any>> = {
     schema : T,
+    loading : boolean,
     onSubmit : (data : z.infer<T>) => void,
     returnError : Record<string, string>[] | null,
     defaultValue ?: z.infer<T>,
@@ -22,6 +23,8 @@ const Form  = <T extends ZodSchema<any>> ({children, ...props} : PropsWithChildr
         resolver : zodResolver(props.schema),
         defaultValues : props.defaultValue
     });
+
+    // console.log(props.loading)
 
     const errorMessage = useMemo(() => {
         return form.formState.errors.form_error?.message
@@ -40,13 +43,15 @@ const Form  = <T extends ZodSchema<any>> ({children, ...props} : PropsWithChildr
 
 
     return (
-        <FormContext.Provider value={{...form}}>
+        <FormContext.Provider value={{...form, loading :  props.loading}}>
             <form onSubmit={form.handleSubmit(props.onSubmit)}>
-                {errorMessage && (
-                   <FormErrorCompoenent
-                        errorMessage={(errorMessage as string)}
-                    />
-                )}
+                <div>
+                    {/* {errorMessage && (
+                    <FormErrorCompoenent
+                            errorMessage={(errorMessage as string)}
+                        />
+                    )} */}
+                </div>
                 {children}
             </form>
         </FormContext.Provider>

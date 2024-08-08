@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-
 import { Controller } from "react-hook-form";
 import { useFormContext } from "../Form";
 
@@ -12,7 +11,6 @@ type PasswordInputProps = {
     passwordToggler : boolean,
     initialvalue ?: string | undefined
     className ?: string
-
 };
 
 export const PasswordInput : React.FC<PasswordInputProps> = (props) => {
