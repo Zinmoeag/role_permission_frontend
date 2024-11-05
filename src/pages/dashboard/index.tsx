@@ -6,7 +6,7 @@ import usePermission from "../../hooks/usePermission";
 
 const Dashboard = () => {
     const {axiosProtected} = useAxiosProtected();
-    const navigate = useNavigate();
+    const navigate = useNavigate()
 
     usePermission({
         action : ["CREATE"],

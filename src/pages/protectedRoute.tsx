@@ -1,43 +1,29 @@
 import { Roles } from "../type";
-import { useAppStore } from "../store";
 import { Navigate } from "react-router-dom";
-import { PropsWithChildren, useMemo } from "react";
-import AppError from "../utils/AppError";
-import { StatusCode } from "../utils/Status";
+import { PropsWithChildren } from "react";
+import { useAuthUser } from "../context/authUserProvider";
+import { CircularProgress } from "@mui/material";
+import { useAppStore } from "../store";
 
 const ProtectedRoute = ({
-    allowedRoles,
-    children,
-} : PropsWithChildren<{
-    allowedRoles : Roles[],
+  allowedRoles,
+  children,
+}: PropsWithChildren<{
+  allowedRoles: Roles[];
 }>) => {
-    const {
-        state : {
-            user,
-            auth_access_token
-        }
-    } = useAppStore() as any;
+  const {
+    state: { user },
+  } = useAppStore() as any;
 
-    const isAuthenticated = useMemo((() => user && auth_access_token),[user,auth_access_token])
+  if (!user) {
+    return <Navigate to="/sign_in" replace />;
+  }
 
-    if(!auth_access_token){
-        return <Navigate to="/sign_in" replace />
-    }
+  if (user && !allowedRoles.includes(user.role_name)) {
+    return <Navigate to="/forbidden" replace />;
+  }
 
-    if(user && !user.verify){
-        return <Navigate to="/sign_in" replace />
-    }
-
-    if(isAuthenticated && !allowedRoles.includes(user?.role_name)){
-        throw new AppError(StatusCode.Unauthorized, "unauthorized")
-    }
-
-
-    if(isAuthenticated && allowedRoles.includes(user?.role_name)){
-        return <>
-            {children}
-        </>
-    }
-}
+  return <>{children}</>;
+};
 
 export default ProtectedRoute;

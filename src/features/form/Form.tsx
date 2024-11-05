@@ -1,66 +1,63 @@
-import { createContext, PropsWithChildren, useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { PropsWithChildren, useEffect } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ZodSchema } from "zod";
 import { TextInput, SubmitBtn, PasswordInput } from "./components";
-import {z} from "zod"
-import FormErrorCompoenent from "./components/FormErrorComponent";
+import { z } from "zod";
 import { useMemo } from "react";
+import CheckInput from "./CheckInput";
+import WithFormProps from "./components/withFormProps";
 
-const FormContext = createContext<any>(null);
-
-type formProps<T extends ZodSchema<any>> = {
-    schema : T,
-    loading : boolean,
-    onSubmit : (data : z.infer<T>) => void,
-    returnError : Record<string, string>[] | null,
-    defaultValue ?: z.infer<T>,
+function getDefaults<Schema extends z.AnyZodObject>(schema: Schema) {
+  return Object.fromEntries(
+    Object.entries(schema.shape).map(([key, value]) => {
+      if (value instanceof z.ZodDefault)
+        return [key, value._def.defaultValue()];
+      return [key, undefined];
+    })
+  );
 }
 
-const Form  = <T extends ZodSchema<any>> ({children, ...props} : PropsWithChildren<formProps<T>> ) => {
+type formProps<T extends z.AnyZodObject> = {
+  schema: T;
+  loading: boolean;
+  onSubmit: (data: z.infer<T>) => void;
+  returnError: Record<string, string>[] | null;
+  defaultValue?: z.infer<T>;
+};
 
-    const form = useForm({
-        resolver : zodResolver(props.schema),
-        defaultValues : props.defaultValue
-    });
+const Form = <T extends z.AnyZodObject>({
+  children,
+  ...props
+}: PropsWithChildren<formProps<T>>) => {
+  const methods = useForm({
+    defaultValues: getDefaults(props.schema) || props.defaultValue,
+    resolver: zodResolver(props.schema),
+  });
 
-    // console.log(props.loading)
+  const errorMessage = useMemo(() => {
+    return methods.formState.errors.form_error?.message;
+  }, [methods.formState.errors.form_error]);
 
-    const errorMessage = useMemo(() => {
-        return form.formState.errors.form_error?.message
-    }, [form.formState.errors.form_error])
+  useEffect(() => {
+    if (props.returnError != null) {
+      props.returnError.forEach((error) => {
+        Object.entries(error).forEach(([key, value]) => {
+          methods.setError(key as string, { message: value });
+        });
+      });
+    }
+  }, [props.returnError, methods]);
 
-
-    useEffect(() => {
-        if(props.returnError != null){
-            props.returnError.forEach((error) => {
-                Object.entries(error).forEach(([key, value]) => {
-                    form.setError((key as any), {message : value})
-                })
-            })
-        }
-    }, [props.returnError])
-
-
-    return (
-        <FormContext.Provider value={{...form, loading :  props.loading}}>
-            <form onSubmit={form.handleSubmit(props.onSubmit)}>
-                <div>
-                    {/* {errorMessage && (
-                    <FormErrorCompoenent
-                            errorMessage={(errorMessage as string)}
-                        />
-                    )} */}
-                </div>
-                {children}
-            </form>
-        </FormContext.Provider>
-    )    
-}
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(props.onSubmit)}>{children}</form>
+    </FormProvider>
+  );
+};
 
 Form.PasswordInput = PasswordInput;
 Form.TextInput = TextInput;
 Form.SubmitBtn = SubmitBtn;
-export default Form;
+Form.CheckInput = CheckInput;
 
-export const useFormContext = () => useContext(FormContext)
+export default Form;

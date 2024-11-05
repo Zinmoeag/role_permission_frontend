@@ -13,6 +13,8 @@ import { LogoutApi } from "../api";
 import axiosClient from "../axios/axiosClient";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import queryClient from "../service/QueryClient";
+import Avatar from '@mui/material/Avatar';
 
 type propsWithState = PropsWithChildren & {
     authUser : z.infer<typeof AuthUser>,
@@ -67,17 +69,13 @@ const areEqual = (prevProps : any, nextProps : any) => {
 
 Navbar.ProfileBtn = memo(() => {
     const {user} = useNavBarContext() as NavBarContextType;
-    const MemoDisplayAvatar = memo(DisplayAvatar);
+
+    console.log(user.avatar)
     return (
         <div>
             <Link to="/Profile">
                 <div className="flex gap-2 items-center justify-center">
-                    <MemoDisplayAvatar 
-                        hasAvatar={user?.avatar}
-                        name={user?.name}
-                        avatar={user?.avatar}
-                    />
-                    <h4 className="  text-sm">{user.name}</h4>
+                    <Avatar alt={user.name} src='https://lh3.googleusercontent.com/a/ACg8ocInheEqIP1afC-BQ8qW0TlANZY6toslYYx2ELfvSNICS-g45xE=s96-c' />
                 </div>
             </Link>
         </div>
@@ -111,6 +109,10 @@ Navbar.LogoutBtn = () => {
         },
         onSuccess : () => {
             dispatch(setLogout());
+
+            queryClient.refetchQueries({
+                queryKey : ["authUser"]
+            })
         }
     })
 

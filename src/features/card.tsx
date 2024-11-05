@@ -25,7 +25,7 @@ const Card = ({
     title : string,
     price : string
 }) => (
-    <div className="card w-[18rem] bg-white overflow-hidden">
+    <div className="card w-full bg-white overflow-hidden">
         <div className="card-img-container h-[20rem] w-full p-8">
             <div className="h-full w-full bg-white flex items-center justify-center">
                 <img src={image} className="h-full" alt="" />

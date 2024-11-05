@@ -9,10 +9,7 @@ const DisplayAvatar = ({
     hasAvatar : null | string,
     name : null | string,
     avatar : null | string,
-}) => {
-
-    console.log("rerender avatar", avatar)
-    
+}) => {    
     return (
         <div className="bg-red-400 w-[2rem] h-[2rem] rounded-full flex justify-center items-center overflow-hidden">
             {

@@ -1,8 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { Controller } from "react-hook-form";
-import { useFormContext } from "../Form";
+import { Controller, useFormContext } from "react-hook-form";
 
 type PasswordInputProps = {
     name : string,
@@ -14,8 +13,9 @@ type PasswordInputProps = {
 };
 
 export const PasswordInput : React.FC<PasswordInputProps> = (props) => {
-    const [showPassword, setShowPassword] = useState(false);
     const form = useFormContext();
+    const [showPassword, setShowPassword] = useState(false);
+    
     return (
         <>
             <Controller
@@ -42,7 +42,6 @@ export const PasswordInput : React.FC<PasswordInputProps> = (props) => {
                                         </button>
                                     )}
                             </div>
-                            {form.formState.errors[props.name] && <p className="text-red-500 text-sm py-1">{form.formState.errors[props.name]?.message}</p>}
                         </div>
                 )}}
             />

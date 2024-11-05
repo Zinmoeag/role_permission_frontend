@@ -2,6 +2,7 @@ import { Component, ErrorInfo, ReactNode } from "react";
 import AppError from "../utils/AppError";
 import { StatusCode } from "../utils/Status";
 import IntertnalServerError from "../pages/errors/global/InternalServerError";
+import ErrorHandler from "../utils/ErrorHandler";
 interface AppErrorBoundaryWithChildren {
     children : ReactNode
 }
@@ -22,23 +23,20 @@ class AppErrorBoundary extends Component<AppErrorBoundaryWithChildren> {
     }
 
     static getDerivedStateFromError(error : any) {
-        // console.log(error)
         return {hasError : true, error};
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
         // console.log(errorInfo)
+        this.setState({error})
     }
 
     render(): ReactNode {
+        // console.log("state error",this.state.error?.response?.status)
         if(this.state.hasError){
             if(this.state.error){
-                // console.log(this.state)
-                const ErrorStatus = AppError.BreakMessage(this.state.error.message)[1]
-                switch(ErrorStatus){
-                    case StatusCode.InternalServerError :
-                        return <IntertnalServerError />
-                }
+                const ErrorStatus = this.state.error.response?.status
+                return <ErrorHandler statusCode={ErrorStatus as StatusCode} />
             }
             
             return <>error</>

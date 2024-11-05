@@ -4,9 +4,7 @@ import {z} from "zod";
 import { Themestypes } from "../../utils/Theme";
 
 export type Store = {
-    isLoggIn : boolean,
     user : z.infer<typeof AuthUser> | null,
-    auth_access_token : string | null,
     theme : Themestypes,
     local : "en" | "my"
 }

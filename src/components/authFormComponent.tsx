@@ -2,7 +2,6 @@ import { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { getGitHubUrl, getGoogleOauthUrl } from "../api";
-import axiosClient from "../axios/axiosClient";
 import { Link } from "react-router-dom";
 
 type components = "LOGIN" | "SIGNUP"

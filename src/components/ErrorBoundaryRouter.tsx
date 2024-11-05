@@ -6,7 +6,7 @@ import AccessDenied from "../pages/errors/accessDenied";
 import InternalServerError from "../pages/errors/internalServerError";
 
 export default function ErrorBoundaryRouter(){
-    let error = useRouteError() as ErrorResponse
+    const error = useRouteError() as ErrorResponse
 
     let errorStatus = 500;
 

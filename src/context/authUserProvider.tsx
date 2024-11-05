@@ -1,61 +1,36 @@
 import { PropsWithChildren, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosProtected from "../hooks/useAxiosProtected";
-import { getUser } from "../api";
-import { setAccessToken, useAppStore } from "../store";
+import { getMe } from "../api/authApi";
 import { setUser } from "../store";
+import { useAppStore } from "../store";
+import PageLoader from "../components/PageLoader";
 
-const useAuthUser = () => {
-    const {axiosProtected} = useAxiosProtected();
-    const {state : {
-        auth_access_token
-    }} : any = useAppStore();
+export const useAuthUser = () => {
+  const { dispatch } = useAppStore() as any;
 
-    
-    const {
-        data,
-        isPending,
-        isSuccess,
-        isError,
-    } = useQuery({
-        queryKey : ["getUser"],
-        queryFn : () => {
-            return axiosProtected.get(getUser());
-        },
-        staleTime : 500,
-        enabled : !!auth_access_token
-    });
+  const query = useQuery({
+    queryKey: ["authUser"],
+    queryFn: getMe,
+    select: (data) => data.data.user,
+    staleTime: 500,
+    retry: 1,
+  });
 
-    return {
-        isPending,
-        isSuccess,
-        isError,
-        user : data?.data.user,
-        auth_access_token,
-    };
-}
+  useEffect(() => {
+    if (query.isSuccess) {
+      dispatch(setUser(query.data));
+    }
+  }, [query.isSuccess, query.data, dispatch]);
 
-const AuthUserProvider = ({
-    children
-} : PropsWithChildren) => {
+  return query;
+};
 
-    const {isSuccess, isError, user, auth_access_token} = useAuthUser();
-    const {dispatch} : any = useAppStore();
+const AuthUserProvider = ({ children }: PropsWithChildren) => {
+  const { isLoading, isFetching } = useAuthUser();
 
+  if (isLoading || isFetching) return <PageLoader />;
 
-    console.log(isSuccess, isError, user, auth_access_token);
-
-    useEffect(() => {
-        if(isSuccess){
-            dispatch(setUser(user));
-            dispatch(setAccessToken({auth_access_token : auth_access_token}));
-        }else if(isError){
-            dispatch(setUser(null));
-            dispatch(setAccessToken({auth_access_token : null}));
-        }
-    },[isSuccess, isError]);
-
-    return children
-}
+  return children;
+};
 
 export default AuthUserProvider;

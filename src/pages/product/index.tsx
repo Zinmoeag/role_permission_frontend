@@ -1,39 +1,74 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { List, Box } from "@mui/material";
+// import Grid from '@mui/material/Grid';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
 import CardContainer from "../../features/card";
- 
-const Products = () => {
-    const endpoint = "https://fakestoreapi.com/products";
+import useInView from "../../hooks/useInView";
 
-    const {
-        isPending,
-        isError,
-        isSuccess,
-        data,
-        error
-    } = useQuery({
-        queryKey : ["product"],
-        queryFn : () => { 
-            return axios.get(endpoint);
-        },
-        staleTime : 60 * 60 * 1000
-    });
+const items = Array.from({ length: 100 }).map((_, i) => ({
+  id: i,
+  title: `Product ${i}`,
+}));
 
-    return (
-        <>
-        <h1 className="text-2xl">Products</h1>
+type ITEM = {
+  id: number;
+  title: string;
+};
 
-        //compound component
-        <CardContainer>
-            {data?.data.map((product : any) => (
-                <CardContainer.Card
-                image={product.image}
-                title={product.title}
-                price={product.price}
-                />
-            ))}
-        </CardContainer>
-        </>
-    )
+const LIMIT = 12;
+
+function fetchItems({ pageParam }: { pageParam: number }): Promise<{
+  data: ITEM[];
+  currentPage: number;
+  nextPage: number | null;
+}> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        data: items.slice(pageParam, pageParam + LIMIT),
+        currentPage: pageParam,
+        nextPage: pageParam + LIMIT < items.length ? pageParam + LIMIT : null,
+      });
+    }, 1000);
+  });
 }
+
+const Products = () => {
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ["products"],
+    queryFn: fetchItems,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+  });
+
+  const {ref, inView} = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
+
+  return (
+    <>
+      <h1 className="text-2xl">Products</h1>
+      //compound component
+      {data?.pages.map((page) => (
+        <Box display="grid" gridTemplateColumns="repeat(4, 1fr)" key={page.currentPage}>
+          {page.data.map((item) => (
+            <Box sx={{ md: 4, sm: 6, xs: 12 }} gap={2} key={item.id}>
+              <CardContainer.Card
+                key={item.id}
+                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMRTiwGbgWmppS5fxAmHVT0iGVpoGE82757A&s"
+                title={"helo"}
+                price="100$"
+              />
+            </Box>
+          ))}
+        </Box>
+      ))}
+      <List ref={ref}>{isFetchingNextPage && "loading ...."}</List>
+    </>
+  );
+};
 export default Products;
