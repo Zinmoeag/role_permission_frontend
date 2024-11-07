@@ -4,45 +4,45 @@ import { StatusCode } from "../utils/Status";
 import IntertnalServerError from "../pages/errors/global/InternalServerError";
 import ErrorHandler from "../utils/ErrorHandler";
 interface AppErrorBoundaryWithChildren {
-    children : ReactNode
+  children: ReactNode;
 }
 
 class AppErrorBoundary extends Component<AppErrorBoundaryWithChildren> {
+  state: {
+    hasError: boolean;
+    error: null | Error;
+  };
 
-    state: {
-        hasError : boolean,
-        error : null | Error
+  constructor(props: AppErrorBoundaryWithChildren) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
     };
+  }
 
-    constructor(props : AppErrorBoundaryWithChildren) {
-        super(props);
-        this.state = {
-            hasError : false,
-            error : null,
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    this.setState({ error });
+  }
+
+  render(): ReactNode {
+    if (this.state.hasError) {
+      if (this.state.error) {
+        if (this.state.error instanceof AppError) {
+          return <ErrorHandler statusCode={this.state.error.statusCode} />;
         }
-    }
+        // const ErrorStatus = this.state.error.response?.status
+        // return <ErrorHandler statusCode={ErrorStatus as StatusCode} />
+      }
 
-    static getDerivedStateFromError(error : any) {
-        return {hasError : true, error};
+      return <>error</>;
     }
-
-    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-        // console.log(errorInfo)
-        this.setState({error})
-    }
-
-    render(): ReactNode {
-        // console.log("state error",this.state.error?.response?.status)
-        if(this.state.hasError){
-            if(this.state.error){
-                const ErrorStatus = this.state.error.response?.status
-                return <ErrorHandler statusCode={ErrorStatus as StatusCode} />
-            }
-            
-            return <>error</>
-        }
-        return this.props.children
-    }
+    return this.props.children;
+  }
 }
 
 export default AppErrorBoundary;
