@@ -63,9 +63,6 @@ const SideBarDropDown = ({
                         ))}
                     </ul>
             </div>
-            <div className="py-1">
-                <button>Roles</button>
-            </div>
         </div>
     )
 }

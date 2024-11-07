@@ -4,16 +4,15 @@ import { Alert } from "@mui/material";
 const ErrorHandler = ({statusCode} : {statusCode : StatusCode}) => {
     switch(statusCode){
         case StatusCode.Unauthorized :
-            return <>access denied</>;
-
+            return <Alert severity="error" color="error">You Are Not Authorized</Alert>;
         case StatusCode.Forbidden : 
             return <Alert severity="error" color="error">Access Denied</Alert>
         case StatusCode.NotFound :
-            return <>not found</>
+            return <Alert severity="error" color="error">Resource Not Found</Alert>
         case StatusCode.InternalServerError :
-            return <>InternalServerError</>
+            return <Alert severity="error" color="error">Internal Server Error</Alert>
         default :
-            return <>internal server error</>
+            return <Alert severity="error" color="error">Internal Server Error</Alert>
     }
 }  
 

@@ -70,7 +70,6 @@ const areEqual = (prevProps : any, nextProps : any) => {
 Navbar.ProfileBtn = memo(() => {
     const {user} = useNavBarContext() as NavBarContextType;
 
-    console.log(user.avatar)
     return (
         <div>
             <Link to="/Profile">

@@ -19,6 +19,8 @@ export const useAuthUser = () => {
   useEffect(() => {
     if (query.isSuccess) {
       dispatch(setUser(query.data));
+    }else{
+      dispatch(setUser(null));
     }
   }, [query.isSuccess, query.data, dispatch]);
 
