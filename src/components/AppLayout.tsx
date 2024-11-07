@@ -4,6 +4,7 @@ import Navbar from "../features/Navbar";
 import Sidebar from "./layout/sidebar";
 import { useState } from "react";
 import NavigatorBar from "./layout/NavigatorBar";
+import { Box } from "@mui/material";
 
 const AppLayout = () => {
   const {
@@ -23,7 +24,7 @@ const AppLayout = () => {
           <div
             className={`fixed ${
               isSideBarOn ? "left-sideBar" : "left-0"
-            } top-0 right-0 h-layoutHeight`}
+            } top-0 right-0 h-layoutHeight z-10`}
           >
             <Navbar authUser={user}>
               <Navbar.sideBarToggler
@@ -44,7 +45,9 @@ const AppLayout = () => {
           </div>
           <div className="px-6 pt-layoutHeight">
             <NavigatorBar />
-            <Outlet />
+            <Box sx={{ mt: 2 }}>
+              <Outlet />
+            </Box>
           </div>
         </div>
       </div>
