@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 
 const Users = () => {
   return (
-    <Box sx={{padding : 2}}>
+    <Box sx={{padding : "15px 0 15px 0"}}>
       <AppErrorBoundary>
         <UserList />
       </AppErrorBoundary>

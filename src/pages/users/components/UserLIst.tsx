@@ -1,13 +1,14 @@
-import { useState } from "react";
+//debugger
 import devDB from "../../../utils/_devdb";
 import useMockQuery from "../../../hooks/useMockQuery";
+    
+import { useState } from "react";
+import useUser from "../../../hooks/user/useUser";
 import { Avatar, Paper, Box } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import AppError from "../../../utils/AppError";
-import { StatusCode } from "../../../utils/Status";
 import PageLoader from "../../../components/PageLoader";
-import useUser from "../../../hooks/user/useUser";
-import { UserParams } from "../../../api/userApi";
+import { AxiosError } from "axios";
+import { AxiosErrorToAppError } from "../../../utils/AppError";
 
 const columns = [
   { field: "id", headerName: "ID", width: 300 },
@@ -35,7 +36,7 @@ const columns = [
   {
     field: "name",
     headerName: "Name",
-    flex : 1,
+    flex: 1,
   },
   {
     field: "email",
@@ -43,22 +44,24 @@ const columns = [
     flex: 1,
   },
   {
-    field : "role_name",
-    headerName : "Role",
-    width : 100
-  }
+    field: "role_name",
+    headerName: "Role",
+    width: 100,
+  },
 ];
 
-const pageSize = [5,10,15];
+const pageSize = [5, 10, 15];
 
 const UserList = () => {
+
+    //filter parmas
   const [paginationModel, setPaginationModel] = useState({
     page: 0,
     pageSize: pageSize[1],
   });
 
   //query
-  const { data, isPending, isFetching, isError } = useUser({
+  const { data, isPending, isFetching, isError, error } = useUser({
     page: paginationModel.page + 1,
     limit: paginationModel.pageSize,
   });
@@ -69,8 +72,7 @@ const UserList = () => {
   //     devDB.users()
   //   );
 
-  if (isError)
-    throw new AppError(StatusCode.InternalServerError, "server error");
+  if (isError) throw AxiosErrorToAppError(error as AxiosError);
 
   if (isPending || isFetching) return <PageLoader />;
 
