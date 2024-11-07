@@ -45,7 +45,7 @@ const Navbar = ({children, authUser} : propsWithState) => {
     } = useLocalization();
     return (
         <NavBarContext.Provider value={{user : authUser, local, changeLocal }}>
-            <div id="nav" className={`px-4 bg-skin-main text-slate-800 max-h-layoutHeight h-full flex items-center shadow-md`}>
+            <div id="nav" className={`px-4 bg-skin-main text-slate-800 max-h-layoutHeight h-full flex items-center shadow-md z-10`}>
                 <div className="flex justify-between items-center w-full">
                     {children}
                 </div>
