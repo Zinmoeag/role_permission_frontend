@@ -1,4 +1,4 @@
-import { Outlet, useRouteLoaderData } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useAppStore } from "../store";
 import Navbar from "../features/Navbar";
 import Sidebar from "./layout/sidebar";
@@ -9,7 +9,7 @@ import { Box } from "@mui/material";
 const AppLayout = () => {
   const {
     state: { user },
-  } = useAppStore() as any;
+  } = useAppStore();
   const [isSideBarOn, setIsSideBarOn] = useState(true);
 
   return (

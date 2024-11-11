@@ -1,8 +1,8 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import AppError from "../utils/AppError";
-import { StatusCode } from "../utils/Status";
-import IntertnalServerError from "../pages/errors/global/InternalServerError";
 import ErrorHandler from "../utils/ErrorHandler";
+import { StatusCode } from "../utils/Status";
+
 interface AppErrorBoundaryWithChildren {
   children: ReactNode;
 }
@@ -21,7 +21,7 @@ class AppErrorBoundary extends Component<AppErrorBoundaryWithChildren> {
     };
   }
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
 
@@ -35,8 +35,7 @@ class AppErrorBoundary extends Component<AppErrorBoundaryWithChildren> {
         if (this.state.error instanceof AppError) {
           return <ErrorHandler statusCode={this.state.error.statusCode} />;
         }
-        // const ErrorStatus = this.state.error.response?.status
-        // return <ErrorHandler statusCode={ErrorStatus as StatusCode} />
+        return <ErrorHandler statusCode={StatusCode.InternalServerError} />;
       }
 
       return <>error</>;

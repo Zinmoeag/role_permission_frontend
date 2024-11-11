@@ -1,10 +1,9 @@
 import ActionsType from "../actions";
 import { AuthUser } from "../../type";
-import {z} from "zod";
 import { Themestypes } from "../../utils/Theme";
 
 export type Store = {
-    user : z.infer<typeof AuthUser> | null,
+    user : AuthUser | null,
     theme : Themestypes,
     local : "en" | "my"
 }

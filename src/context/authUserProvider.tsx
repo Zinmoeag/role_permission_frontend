@@ -6,7 +6,7 @@ import { useAppStore } from "../store";
 import PageLoader from "../components/PageLoader";
 
 export const useAuthUser = () => {
-  const { dispatch } = useAppStore() as any;
+  const { dispatch } = useAppStore();
 
   const query = useQuery({
     queryKey: ["authUser"],

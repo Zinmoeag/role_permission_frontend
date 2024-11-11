@@ -17,7 +17,7 @@ import queryClient from "../service/QueryClient";
 import Avatar from '@mui/material/Avatar';
 
 type propsWithState = PropsWithChildren & {
-    authUser : z.infer<typeof AuthUser>,
+    authUser : z.infer<typeof AuthUser> | null,
 }
 
 type NavBarContextType = {

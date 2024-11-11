@@ -8,6 +8,7 @@ type TextInputProps = {
   label: string;
   isLoading: boolean;
   placeholder: string;
+  inputStyle?:React.CSSProperties;
   disabled?: boolean;
   className?: string;
   endAdornment?: React.ReactNode;
@@ -16,7 +17,6 @@ type TextInputProps = {
 };
 
 export const TextInput: React.FC<TextInputProps> = (props) => {
-
   const form = useFormContext();
   const customOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -39,24 +39,29 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
       <Controller
         name={props.name}
         control={form.control}
-        render={({ field: { onChange, value, ...field } }) => (
-          <>
-            <Box width="100%">
-              <OutlinedInput
-                size="small"
-                placeholder={props.placeholder}
-                className={`w-full ${props.className}`}
-                value={value || ""}
-                disabled={props?.disabled}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>{
-                  customOnChange(e, onChange)
-                }}
-                endAdornment={props.endAdornment}
-                {...field}
-              />
-            </Box>
-          </>
-        )}
+        render={({ field: { onChange, value, ...field } }) => {
+          return (
+            <>
+              <Box>
+                <OutlinedInput
+                  size="small"
+                  placeholder={props.placeholder}
+                  className={`w-full ${props.className}`}
+                  value={value || ""}
+                  disabled={props?.disabled}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    customOnChange(e, onChange);
+                  }}
+                  sx={{
+                    ...(props.inputStyle && props.inputStyle),
+                  }}
+                  endAdornment={props.endAdornment}
+                  {...field}
+                />
+              </Box>
+            </>
+          );
+        }}
       />
     </>
   );

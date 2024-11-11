@@ -12,8 +12,10 @@ const ProtectedRoute = ({
   allowedRoles: Roles[];
 }>) => {
   const {
-    state: { user },
-  } = useAppStore() as any;
+    state : {
+      user
+    },
+  } = useAppStore();
 
   if (!user) {
     return <Navigate to="/sign_in" replace />;

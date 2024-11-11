@@ -5,7 +5,7 @@ import { TextInput, SubmitBtn, PasswordInput } from "./components";
 import { z } from "zod";
 import { useMemo } from "react";
 import CheckInput from "./CheckInput";
-import WithFormProps from "./components/withFormProps";
+import SelectInput from "./components/SelectInput";
 
 function getDefaults<Schema extends z.AnyZodObject>(schema: Schema) {
   return Object.fromEntries(
@@ -30,7 +30,7 @@ const Form = <T extends z.AnyZodObject>({
   ...props
 }: PropsWithChildren<formProps<T>>) => {
   const methods = useForm({
-    defaultValues: getDefaults(props.schema) || props.defaultValue,
+    defaultValues:  props.defaultValue || getDefaults(props.schema),
     resolver: zodResolver(props.schema),
   });
 
@@ -59,5 +59,6 @@ Form.PasswordInput = PasswordInput;
 Form.TextInput = TextInput;
 Form.SubmitBtn = SubmitBtn;
 Form.CheckInput = CheckInput;
+Form.SelectInput = SelectInput
 
 export default Form;
